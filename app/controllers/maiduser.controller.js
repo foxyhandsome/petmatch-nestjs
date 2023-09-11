@@ -1,4 +1,4 @@
-const User = require("../models/user.model.js");
+const Maid = require("../models/maiduser.model");
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -10,18 +10,17 @@ exports.create = (req, res) => {
     });
   }
   // Create a User
-  const user = new User({
-    username_id: req.body.username_id,
-    password_user: req.body.password_user,
-    user_fname: req.body.user_fname,
-    user_lname: req.body.user_lname,
-    user_phone: req.body.user_phone,
-    roomsize: req.body.roomsize,
+  const maid = new Maid({
+    maid_username: req.body.maid_username,
+    maid_password: req.body.maid_password,
+    maid_fname: req.body.maid_fname,
+    maid_lname: req.body.maid_lname,
+    maid_phone: req.body.maid_phone,
     type_id: req.body.type_id,
   });
 
   // Save Tutorial in the database
-  User.create(user, (err, data) => {
+  Maid.create(maid, (err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while creating the User.",

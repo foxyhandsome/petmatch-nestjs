@@ -8,6 +8,7 @@ const User = function (user) {
   this.user_lname = user.user_lname;
   this.user_phone = user.user_phone;
   this.roomsize = user.roomsize;
+  this.type_id = user.type_id;
 };
 
 User.create = (newUser, result) => {
