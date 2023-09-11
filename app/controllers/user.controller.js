@@ -11,6 +11,7 @@ exports.create = (req, res) => {
   }
   // Create a User
   const user = new User({
+    room_id: req.body.room_id,
     username_id: req.body.username_id,
     password_user: req.body.password_user,
     user_fname: req.body.user_fname,
@@ -29,3 +30,76 @@ exports.create = (req, res) => {
     else res.send("success");
   });
 };
+
+exports.login = (req, res) => {
+  const { username_id, password_user } = req.body;
+  if (!username_id || !password_user) {
+    return res.status(400).json({
+      message: "Username and password are required fields.",
+    });
+  }
+  User.login(username_id, password_user, (err, user) => {
+    if (err) {
+      console.error("Error during login:", err);
+      return res.status(500).json({
+        message: "An error occurred while attempting to log in.",
+      });
+    }
+    if (!user) {
+      return res.status(401).json({
+        message: "Invalid username or password.",
+      });
+    }
+    res.json({
+      message: "Login successful!",
+      user,
+    });
+  });
+};
+
+exports.deleteUser = (req, res) => {
+  const userId = req.params.room_id;
+  User.delete(userId, (err, result) => {
+    if (err) {
+      console.error("Error during user deletion:", err);
+
+      if (err.message === "User not found") {
+        return res.status(404).json({
+          message: "User not found.",
+        });
+      } else {
+        return res.status(500).json({
+          message: "An error occurred while deleting the user.",
+        });
+      }
+    }
+    res.status(204).send();
+  });
+};
+
+exports.editUser = (req, res) => {
+  const userId = req.params.room_id; // Assuming you get the id_user from the route parameter
+  const updatedUserData = req.body; // Assuming you send the updated user data in the request body
+
+  // Call the edit method from the User model
+  User.edit(userId, updatedUserData, (err, updatedUser) => {
+    if (err) {
+      console.error("Error during user editing:", err);
+
+      if (err.message === "User not found") {
+        return res.status(404).json({
+          message: "User not found.",
+        });
+      } else {
+        return res.status(500).json({
+          message: "An error occurred while editing the user.",
+        });
+      }
+    }
+
+    // User edited successfully
+    res.json(updatedUser);
+  });
+};
+
+
