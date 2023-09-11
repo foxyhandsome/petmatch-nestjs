@@ -4,5 +4,5 @@ module.exports = (app) => {
   var router = require("express").Router();
   router.post("/create-user", user.create);
 
-  app.use("/pet-match/api/user", router);
+  app.use("/maid-privacy/api/user", router);
 };

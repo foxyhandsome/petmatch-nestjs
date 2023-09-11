@@ -11,12 +11,12 @@ exports.create = (req, res) => {
   }
   // Create a User
   const user = new User({
-    username: req.body.username,
-    password: req.body.password,
-    information: req.body.information,
-    contact: req.body.contact,
-    id_district: req.body.id_district,
-    id_subdistrict: req.body.id_subdistrict,
+    username_id: req.body.username_id,
+    password_user: req.body.password_user,
+    user_fname: req.body.user_fname,
+    user_lname: req.body.user_lname,
+    user_phone: req.body.user_phone,
+    roomsize: req.body.roomsize,
   });
 
   // Save Tutorial in the database
@@ -25,6 +25,6 @@ exports.create = (req, res) => {
       res.status(500).send({
         message: err.message || "Some error occurred while creating the User.",
       });
-    else res.send("aaa");
+    else res.send("success");
   });
 };

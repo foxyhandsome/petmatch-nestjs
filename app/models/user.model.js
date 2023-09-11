@@ -2,23 +2,23 @@ const sql = require("./db.js");
 
 // constructor
 const User = function (user) {
-  this.username = user.username;
-  this.password = user.password;
-  this.information = user.information;
-  this.contact = user.contact;
-  this.id_district = user.id_district;
-  this.id_subdistrict = user.id_subdistrict;
+  this.username_id = user.username_id;
+  this.password_user = user.password_user;
+  this.user_fname = user.user_fname;
+  this.user_lname = user.user_lname;
+  this.user_phone = user.user_phone;
+  this.roomsize = user.roomsize;
 };
 
 User.create = (newUser, result) => {
-  sql.query("INSERT INTO user SET ?", newUser, (err, res) => {
+  sql.query("INSERT INTO userresident SET ?", newUser, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
-    console.log("created user: ", { id: res.username, ...newUser });
-    result(null, { id: res.username, ...newUser });
+    console.log("created user: ", { id: res.username_id, ...newUser });
+    result(null, { id: res.username_id, ...newUser });
   });
 };
 
