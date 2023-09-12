@@ -80,25 +80,15 @@ exports.deleteUser = (req, res) => {
   });
 };
 
-exports.postUser = (req, res) => {
-  const showUser = req.params.username; // Assuming you get the id_user from the route parameter
-
-User.post(showUser, (req, res) => {
-    if (error) {
-      console.error('Error retrieving user:', error);
-      res.status(500).json({ error: 'Error retrieving user' });
-    } else {
-      if (results.length > 0) {
-        const user = results[0];
-        res.status(200).json({ user });
-      } else {
-        res.status(404).json({ error: 'User not found' });
-      }
-    }
+exports.findAllusers = (req, res) => {
+  User.getAll((err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving Users.",
+      });
+    else res.send(data);
   });
 };
-
-
 
 exports.editUser = (req, res) => {
   const userId = req.params.username; // Assuming you get the id_user from the route parameter

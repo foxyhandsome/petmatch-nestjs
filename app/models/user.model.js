@@ -26,15 +26,15 @@ User.create = (newUser, result) => {
   });
 };
 
-User.post = (idUser, result) => {
-  sql.query("SELECT * FROM user WHERE username = ?", idUser, (err, res) => {
+User.getAll = (result) => {
+  sql.query("SELECT * FROM user", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
-    console.log("show user: ", { id: res.username, ...idUser });
-    result(null, { id: res.username, ...idUser });
+    console.log("users: ", res);
+    result(null, res);
   });
 };
 

@@ -10,7 +10,7 @@ module.exports = (app) => {
   router.post("/create-feed", feed.create);
 
   
-
+  router.get("/findallusers",user.findAllusers);
 
 
   router.delete("/delete/:username", user.deleteUser);
