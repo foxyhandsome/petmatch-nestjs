@@ -34,7 +34,7 @@ exports.create = (req, res) => {
 };
 
 
-exports.deleteMaid = (req, res) => {
+exports.deleteBook = (req, res) => {
   const bookId = req.params.booking_id;
   Book.delete(bookId, (err, result) => {
     if (err) {
@@ -54,12 +54,12 @@ exports.deleteMaid = (req, res) => {
   });
 };
 
-exports.editMaid = (req, res) => {
-  const bookId = req.params.booking_id; // Assuming you get the id_user from the route parameter
+exports.editBook = (req, res) => {
+  const idBook = req.params.booking_id; // Assuming you get the id_user from the route parameter
   const updatedBookData = req.body; // Assuming you send the updated user data in the request body
 
   // Call the edit method from the User model
-  Book.edit(bookId, updatedBookData, (err, updatedBookData) => {
+  Book.edit(idBook, updatedBookData, (err, updatedBook) => {
     if (err) {
       console.error("Error during user editing:", err);
 
@@ -75,7 +75,7 @@ exports.editMaid = (req, res) => {
     }
 
     // User edited successfully
-    res.json(updatedMaidData);
+    res.json(updatedBook);
   });
 };
 

@@ -1,4 +1,4 @@
-const Book = require("../models/booking.model");
+const Feed = require("../models/feedback.model");
 
 
 // Create and Save a new Tutorial
@@ -11,7 +11,7 @@ exports.create = (req, res) => {
     });
   }
   // Create a User
-  const book = new Book({
+  const feed = new Feed({
     feedback_id: req.body.feedback_id,
     feedback_description: req.body.feedback_description,
     id_user: req.body.id_user,
@@ -19,7 +19,7 @@ exports.create = (req, res) => {
   });
 
   // Save Tutorial in the database
-  Book.create(book, (err, data) => {
+  Feed.create(feed, (err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while creating the User.",
@@ -29,9 +29,9 @@ exports.create = (req, res) => {
 };
 
 
-exports.deleteMaid = (req, res) => {
+exports.deleteFeed = (req, res) => {
   const feedId = req.params.feedback_id;
-  Book.delete(feedId, (err, result) => {
+  Feed.delete(feedId, (err, result) => {
     if (err) {
       console.error("Error during user deletion:", err);
 
@@ -49,12 +49,12 @@ exports.deleteMaid = (req, res) => {
   });
 };
 
-exports.editMaid = (req, res) => {
+exports.editFeed = (req, res) => {
   const feedId = req.params.feedback_id; // Assuming you get the id_user from the route parameter
   const updatedFeedData = req.body; // Assuming you send the updated user data in the request body
 
   // Call the edit method from the User model
-  Book.edit(feedId, updatedFeedData, (err, updatedFeedData) => {
+  Feed.edit(feedId, updatedFeedData, (err, updatedFeed) => {
     if (err) {
       console.error("Error during user editing:", err);
 
@@ -70,7 +70,7 @@ exports.editMaid = (req, res) => {
     }
 
     // User edited successfully
-    res.json(updatedFeedData);
+    res.json(updatedFeed);
   });
 };
 
