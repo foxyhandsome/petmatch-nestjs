@@ -24,6 +24,19 @@ User.create = (newUser, result) => {
   });
 };
 
+User.post = (idUser, result) => {
+  sql.query("SELECT * FROM userresident WHERE username_id = ?", idUser, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    console.log("show user: ", { id: res.username_id, ...idUser });
+    result(null, { id: res.username_id, ...idUser });
+  });
+};
+
+
 User.edit = (idUser, updatedUser, result) => {
   sql.query(
     "UPDATE userresident SET ? WHERE room_id = ?",

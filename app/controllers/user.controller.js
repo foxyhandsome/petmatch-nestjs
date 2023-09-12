@@ -77,6 +77,26 @@ exports.deleteUser = (req, res) => {
   });
 };
 
+exports.postUser = (req, res) => {
+  const showUser = req.params.username_id; // Assuming you get the id_user from the route parameter
+
+User.post(showUser, (req, res) => {
+    if (error) {
+      console.error('Error retrieving user:', error);
+      res.status(500).json({ error: 'Error retrieving user' });
+    } else {
+      if (results.length > 0) {
+        const user = results[0];
+        res.status(200).json({ user });
+      } else {
+        res.status(404).json({ error: 'User not found' });
+      }
+    }
+  });
+};
+
+
+
 exports.editUser = (req, res) => {
   const userId = req.params.room_id; // Assuming you get the id_user from the route parameter
   const updatedUserData = req.body; // Assuming you send the updated user data in the request body
