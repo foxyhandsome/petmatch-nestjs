@@ -4,8 +4,7 @@ const sql = require("./db.js");
 const Feedback = function (feedback) {
   this.feedback_id = feedback.feedback_id;
   this.feedback_description = feedback.feedback_description;
-  this.maid_id = feedback.maid_id;
-  this.room_id = feedback.room_id;
+  this.id_user = feedback.id_user;
 };
 
 Feedback.create = (newFeed, result) => {

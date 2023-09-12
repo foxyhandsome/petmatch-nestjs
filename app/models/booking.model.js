@@ -9,8 +9,8 @@ const Book = function (book) {
   this.paymentslip = book.paymentslip;
   this.maid_rating = book.maid_rating;
   this.status = book.status;
-  this.room_id = book.room_id;
-  this.maid_id = book.maid_id;
+  this.id_user = book.id_user;
+
 };
 
 Book.create = (newBook, result) => {

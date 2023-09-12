@@ -14,8 +14,7 @@ exports.create = (req, res) => {
   const book = new Book({
     feedback_id: req.body.feedback_id,
     feedback_description: req.body.feedback_description,
-    maid_id: req.body.maid_id,
-    room_id: req.body.room_id,
+    id_user: req.body.id_user,
    
   });
 

@@ -2,44 +2,46 @@ const sql = require("./db.js");
 
 // constructor
 const User = function (user) {
-  this.room_id = user.room_id;
-  this.username_id = user.username_id;
-  this.password_user = user.password_user;
-  this.user_fname = user.user_fname;
-  this.user_lname = user.user_lname;
-  this.user_phone = user.user_phone;
+  this.id_user = user.id_user;
+  this.username = user.username;
+  this.password = user.password;
+  this.fname = user.fname;
+  this.lname = user.lname;
+  this.phone = user.phone;
+  this.roomnumber = user.roomnumber;
   this.roomsize = user.roomsize;
+  this.maid_rating = user.maid_rating;
   this.type_id = user.type_id;
 };
 
 User.create = (newUser, result) => {
-  sql.query("INSERT INTO userresident SET ?", newUser, (err, res) => {
+  sql.query("INSERT INTO user SET ?", newUser, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
-    console.log("created user: ", { id: res.username_id, ...newUser });
-    result(null, { id: res.username_id, ...newUser });
+    console.log("created user: ", { id: res.username, ...newUser });
+    result(null, { id: res.username, ...newUser });
   });
 };
 
 User.post = (idUser, result) => {
-  sql.query("SELECT * FROM userresident WHERE username_id = ?", idUser, (err, res) => {
+  sql.query("SELECT * FROM user WHERE username = ?", idUser, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
-    console.log("show user: ", { id: res.username_id, ...idUser });
-    result(null, { id: res.username_id, ...idUser });
+    console.log("show user: ", { id: res.username, ...idUser });
+    result(null, { id: res.username, ...idUser });
   });
 };
 
 
 User.edit = (idUser, updatedUser, result) => {
   sql.query(
-    "UPDATE userresident SET ? WHERE room_id = ?",
+    "UPDATE user SET ? WHERE username = ?",
     [updatedUser, idUser],
     (err, res) => {
       if (err) {
@@ -55,15 +57,15 @@ User.edit = (idUser, updatedUser, result) => {
       }
 
       console.log("updated userresident with id: ", idUser);
-      result(null, { room_id: idUser, ...updatedUser });
+      result(null, { username: idUser, ...updatedUser });
     }
   );
 };
 
-User.login = (username_id, password_user, result) => {
+User.login = (username, password, result) => {
   sql.query(
-    "SELECT * FROM userresident WHERE username_id = ? AND password_user = ?",
-    [username_id, password_user],
+    "SELECT * FROM user WHERE username_id = ? AND password_user = ?",
+    [username, password],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -81,7 +83,7 @@ User.login = (username_id, password_user, result) => {
 };
 
 User.delete = (userId, result) => {
-  sql.query("DELETE FROM userresident WHERE room_id = ?", userId, (err, res) => {
+  sql.query("DELETE FROM user WHERE username = ?", userId, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

@@ -19,8 +19,7 @@ exports.create = (req, res) => {
     paymentslip: req.body.paymentslip,
     maid_rating: req.body.maid_rating,
     status: req.body.status,
-    room_id: req.body.room_id,
-    maid_id: req.body.maid_id,
+    id_user: req.body.id_user,
 
   });
 

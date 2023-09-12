@@ -11,14 +11,17 @@ exports.create = (req, res) => {
   }
   // Create a User
   const user = new User({
-    room_id: req.body.room_id,
-    username_id: req.body.username_id,
-    password_user: req.body.password_user,
-    user_fname: req.body.user_fname,
-    user_lname: req.body.user_lname,
-    user_phone: req.body.user_phone,
+    id_user: req.body.id_user,
+    username: req.body.username,
+    password: req.body.password,
+    fname: req.body.fname,
+    lname: req.body.lname,
+    phone: req.body.phone,
+    roomnumber: req.body.roomnumber,
     roomsize: req.body.roomsize,
+    maid_rating: req.body.maid_rating,
     type_id: req.body.type_id,
+
   });
 
   // Save Tutorial in the database
@@ -32,13 +35,13 @@ exports.create = (req, res) => {
 };
 
 exports.login = (req, res) => {
-  const { username_id, password_user } = req.body;
-  if (!username_id || !password_user) {
+  const { username, password } = req.body;
+  if (!username || !password) {
     return res.status(400).json({
       message: "Username and password are required fields.",
     });
   }
-  User.login(username_id, password_user, (err, user) => {
+  User.login(username, password, (err, user) => {
     if (err) {
       console.error("Error during login:", err);
       return res.status(500).json({
@@ -58,7 +61,7 @@ exports.login = (req, res) => {
 };
 
 exports.deleteUser = (req, res) => {
-  const userId = req.params.room_id;
+  const userId = req.params.username;
   User.delete(userId, (err, result) => {
     if (err) {
       console.error("Error during user deletion:", err);
@@ -78,7 +81,7 @@ exports.deleteUser = (req, res) => {
 };
 
 exports.postUser = (req, res) => {
-  const showUser = req.params.username_id; // Assuming you get the id_user from the route parameter
+  const showUser = req.params.username; // Assuming you get the id_user from the route parameter
 
 User.post(showUser, (req, res) => {
     if (error) {
@@ -98,7 +101,7 @@ User.post(showUser, (req, res) => {
 
 
 exports.editUser = (req, res) => {
-  const userId = req.params.room_id; // Assuming you get the id_user from the route parameter
+  const userId = req.params.username; // Assuming you get the id_user from the route parameter
   const updatedUserData = req.body; // Assuming you send the updated user data in the request body
 
   // Call the edit method from the User model
