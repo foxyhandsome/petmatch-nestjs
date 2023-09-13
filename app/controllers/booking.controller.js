@@ -19,17 +19,27 @@ exports.create = (req, res) => {
     paymentslip: req.body.paymentslip,
     maid_rating: req.body.maid_rating,
     status: req.body.status,
-    id_user: req.body.id_user,
-
+    user_booking: req.body.user_booking,
+    maidbooking: req.body.maidbooking,
   });
 
   // Save Tutorial in the database
   Book.create(book, (err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while creating the User.",
+        message: err.message || "Some error occurred while creating the Book.",
       });
     else res.send("success");
+  });
+};
+
+exports.findAllbook = (req, res) => {
+  Book.getAll((err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving Book.",
+      });
+    else res.send(data);
   });
 };
 
@@ -38,15 +48,15 @@ exports.deleteBook = (req, res) => {
   const bookId = req.params.booking_id;
   Book.delete(bookId, (err, result) => {
     if (err) {
-      console.error("Error during user deletion:", err);
+      console.error("Error during Book deletion:", err);
 
-      if (err.message === "User not found") {
+      if (err.message === "Book not found") {
         return res.status(404).json({
-          message: "User not found.",
+          message: "Book not found.",
         });
       } else {
         return res.status(500).json({
-          message: "An error occurred while deleting the user.",
+          message: "An error occurred while deleting the Book.",
         });
       }
     }
@@ -61,15 +71,15 @@ exports.editBook = (req, res) => {
   // Call the edit method from the User model
   Book.edit(idBook, updatedBookData, (err, updatedBook) => {
     if (err) {
-      console.error("Error during user editing:", err);
+      console.error("Error during Book editing:", err);
 
-      if (err.message === "User not found") {
+      if (err.message === "Book not found") {
         return res.status(404).json({
-          message: "User not found.",
+          message: "Book not found.",
         });
       } else {
         return res.status(500).json({
-          message: "An error occurred while editing the user.",
+          message: "An error occurred while editing the Book.",
         });
       }
     }

@@ -22,26 +22,35 @@ exports.create = (req, res) => {
   Feed.create(feed, (err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while creating the User.",
+        message: err.message || "Some error occurred while creating the Feed.",
       });
     else res.send("success");
   });
 };
 
+exports.findAllfeed = (req, res) => {
+  Feed.getAll((err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving Feed.",
+      });
+    else res.send(data);
+  });
+};
 
 exports.deleteFeed = (req, res) => {
   const feedId = req.params.feedback_id;
   Feed.delete(feedId, (err, result) => {
     if (err) {
-      console.error("Error during user deletion:", err);
+      console.error("Error during feed deletion:", err);
 
-      if (err.message === "User not found") {
+      if (err.message === "Feed not found") {
         return res.status(404).json({
-          message: "User not found.",
+          message: "Feed not found.",
         });
       } else {
         return res.status(500).json({
-          message: "An error occurred while deleting the user.",
+          message: "An error occurred while deleting the feed.",
         });
       }
     }
@@ -56,15 +65,15 @@ exports.editFeed = (req, res) => {
   // Call the edit method from the User model
   Feed.edit(feedId, updatedFeedData, (err, updatedFeed) => {
     if (err) {
-      console.error("Error during user editing:", err);
+      console.error("Error during Feed editing:", err);
 
-      if (err.message === "User not found") {
+      if (err.message === "Feed not found") {
         return res.status(404).json({
-          message: "User not found.",
+          message: "Feed not found.",
         });
       } else {
         return res.status(500).json({
-          message: "An error occurred while editing the user.",
+          message: "An error occurred while editing the Feed.",
         });
       }
     }

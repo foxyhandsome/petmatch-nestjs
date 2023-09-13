@@ -19,15 +19,15 @@ Feedback.create = (newFeed, result) => {
   });
 };
 
-Feedback.get = (idFeed, result) => {
-  sql.query("SELECT * FROM feedback WHERE feedback_id = ?", idFeed, (err, res) => {
+Feedback.getAll = (result) => {
+  sql.query("SELECT * FROM feedback", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
-    console.log("show user: ", { id: res.feedback_id, ...idFeed });
-    result(null, { id: res.feedback_id, ...idFeed });
+    console.log("work: ", res);
+    result(null, res);
   });
 };
 

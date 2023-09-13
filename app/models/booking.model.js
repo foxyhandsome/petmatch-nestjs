@@ -9,8 +9,8 @@ const Book = function (book) {
   this.paymentslip = book.paymentslip;
   this.maid_rating = book.maid_rating;
   this.status = book.status;
-  this.id_user = book.id_user;
-
+  this.user_booking = book.user_booking;
+  this.maidbooking = book.maidbooking;
 };
 
 Book.create = (newBook, result) => {
@@ -25,15 +25,15 @@ Book.create = (newBook, result) => {
   });
 };
 
-Book.get = (showBook, result) => {
-  sql.query("SELECT * FROM booking WHERE booking_id = ?", showUser, (err, res) => {
+Book.getAll = (result) => {
+  sql.query("SELECT * FROM booking", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
-    console.log("show user: ", { id: res.booking_id, ...showBook });
-    result(null, { id: res.booking_id, ...showBook });
+    console.log("work: ", res);
+    result(null, res);
   });
 };
 
