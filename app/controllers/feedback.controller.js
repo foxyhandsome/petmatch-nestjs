@@ -22,9 +22,9 @@ exports.create = (req, res) => {
   Feed.create(feed, (err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while creating the Feed.",
+        message: err.message || "เกิดข้อผิดพลาดในการสร้าง.",
       });
-    else res.send("success");
+    else res.send("การสร้างสำเร็จ");
   });
 };
 
@@ -32,7 +32,7 @@ exports.findAllfeed = (req, res) => {
   Feed.getAll((err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving Feed.",
+        message: err.message || "เกิดข้อผลาดในการสร้าง.",
       });
     else res.send(data);
   });
@@ -42,20 +42,20 @@ exports.deleteFeed = (req, res) => {
   const feedId = req.params.feedback_id;
   Feed.delete(feedId, (err, result) => {
     if (err) {
-      console.error("Error during feed deletion:", err);
+      console.error("เกิดข้อผิดพลาดในการลบ:", err);
 
-      if (err.message === "Feed not found") {
+      if (err.message === "ไม่พบการรายงาน") {
         return res.status(404).json({
-          message: "Feed not found.",
+          message: "ไม่พบการรายงาน.",
         });
       } else {
         return res.status(500).json({
-          message: "An error occurred while deleting the feed.",
+          message: "เกิดข้อผิดพลาด.",
         });
       }
     }
     res.json({
-      message: "Delete successful!",
+      message: "ลบข้อมูลสำเร็จ!",
       userId,
     });
     res.status(204).send();
@@ -63,26 +63,24 @@ exports.deleteFeed = (req, res) => {
 };
 
 exports.editFeed = (req, res) => {
-  const feedId = req.params.feedback_id; // Assuming you get the id_user from the route parameter
-  const updatedFeedData = req.body; // Assuming you send the updated user data in the request body
+  const feedId = req.params.feedback_id; 
+  const updatedFeedData = req.body; 
 
-  // Call the edit method from the User model
   Feed.edit(feedId, updatedFeedData, (err, updatedFeed) => {
     if (err) {
-      console.error("Error during Feed editing:", err);
+      console.error("เกิดข้อผิดพลาดในการแก้ไข:", err);
 
-      if (err.message === "Feed not found") {
+      if (err.message === "ไม่พบการรายงาน") {
         return res.status(404).json({
-          message: "Feed not found.",
+          message: "ไม่พบการรายงาน.",
         });
       } else {
         return res.status(500).json({
-          message: "An error occurred while editing the Feed.",
+          message: "เกิดข้อผิดพลาด.",
         });
       }
     }
 
-    // User edited successfully
     res.json(updatedFeed);
   });
 };

@@ -28,9 +28,9 @@ exports.create = (req, res) => {
   User.create(user, (err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while creating the User.",
+        message: err.message || "พบข้อผิดพลาด.",
       });
-    else res.send("success");
+    else res.send("สำเร็จ");
   });
 };
 
@@ -38,23 +38,23 @@ exports.login = (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
     return res.status(400).json({
-      message: "Username and password are required fields.",
+      message: "กรุณากรอกข้อมูลให้ครบ.",
     });
   }
   User.login(username, password, (err, user) => {
     if (err) {
-      console.error("Error during login:", err);
+      console.error("เกิดข้อผิดพลาด:", err);
       return res.status(500).json({
-        message: "An error occurred while attempting to log in.",
+        message: "เกิดข้อผิดพลาด.",
       });
     }
     if (!user) {
       return res.status(401).json({
-        message: "Invalid username or password.",
+        message: "ผู้ใช้หรือรหัสผ่านไม่ถูกต้อง.",
       });
     }
     res.json({
-      message: "Login successful!",
+      message: "ลงชื่อใช้งานสำเร็จ!",
       user,
     });
   });
@@ -64,20 +64,20 @@ exports.deleteUser = (req, res) => {
   const userId = req.params.username;
   User.delete(userId, (err, result) => {
     if (err) {
-      console.error("Error during user deletion:", err);
+      console.error("เกิดข้อผิดพลาด:", err);
 
-      if (err.message === "User not found") {
+      if (err.message === "ไม่พบผู้ใช้งาน") {
         return res.status(404).json({
-          message: "User not found.",
+          message: "ไม่พบผู้ใช้งาน.",
         });
       } else {
         return res.status(500).json({
-          message: "An error occurred while deleting the delete.",
+          message: "เกิดข้อผิดพลาด.",
         });
       }
     }
     res.json({
-      message: "Delete successful!",
+      message: "ลบข้อมูลผู้ใช้สำเร็จ!",
       userId,
     });
     res.status(204).send();
@@ -88,7 +88,7 @@ exports.findAllusers = (req, res) => {
   User.getAll((err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving Users.",
+        message: err.message || "เกิดข้อผิดพลาด.",
       });
     else res.send(data);
   });
@@ -100,7 +100,7 @@ exports.findAllusersByTypeId = (req, res) => {
   User.getUserType(typeID, (err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving Users by typeID.",
+        message: err.message || "เกิดข้อผิดพลาด.",
       });
     else res.send(data);
   });
@@ -113,20 +113,19 @@ exports.editUser = (req, res) => {
   
   User.edit(userId, updatedUserData, (err, updatedUser) => {
     if (err) {
-      console.error("Error during user editing:", err);
+      console.error("เกิดข้อผิดพลาด:", err);
 
-      if (err.message === "User not found") {
+      if (err.message === "ไม่พบข้อมูลผู้ใช้งาน") {
         return res.status(404).json({
-          message: "User not found.",
+          message: "ไม่พบข้อมูลผู้ใช้งาน.",
         });
       } else {
         return res.status(500).json({
-          message: "An error occurred while editing the user.",
+          message: "เกิดข้อผิดพลาด.",
         });
       }
     }
 
-    // User edited successfully
     res.json(updatedUser);
   });
 };

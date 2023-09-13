@@ -28,9 +28,9 @@ exports.create = (req, res) => {
   Book.create(book, (err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while creating the Book.",
+        message: err.message || "ไม่สามารถจองคิวได้",
       });
-    else res.send("success");
+    else res.send("การจองคิวสำเร็จ");
   });
 };
 
@@ -38,7 +38,7 @@ exports.findAllbook = (req, res) => {
   Book.getAll((err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving Book.",
+        message: err.message || "หาประวัติการจองไม่เจอ",
       });
     else res.send(data);
   });
@@ -49,20 +49,20 @@ exports.deleteBook = (req, res) => {
   const bookId = req.params.booking_id;
   Book.delete(bookId, (err, result) => {
     if (err) {
-      console.error("Error during Book deletion:", err);
+      console.error("หาประวัติการจองไม่เจอ:", err);
 
       if (err.message === "Book not found") {
         return res.status(404).json({
-          message: "Book not found.",
+          message: "ไม่พบการจอง.",
         });
       } else {
         return res.status(500).json({
-          message: "An error occurred while deleting the Book.",
+          message: "เกิดข้อผิดพลาด.",
         });
       }
     }
     res.json({
-      message: "Delete successful!",
+      message: "ลบข้อมูล!",
       userId,
     });
     res.status(204).send();
@@ -76,20 +76,20 @@ exports.editBook = (req, res) => {
   // Call the edit method from the User model
   Book.edit(idBook, updatedBookData, (err, updatedBook) => {
     if (err) {
-      console.error("Error during Book editing:", err);
+      console.error("ไม่สามารถแก้ไขข้อมูลการจองได้:", err);
 
       if (err.message === "Book not found") {
         return res.status(404).json({
-          message: "Book not found.",
+          message: "ไม่พบการจอง.",
         });
       } else {
         return res.status(500).json({
-          message: "An error occurred while editing the Book.",
+          message: "เกิดข้อผิดพลาดการแก้ไขการจอง.",
         });
       }
     }
 
-    // User edited successfully
+    
     res.json(updatedBook);
   });
 };
