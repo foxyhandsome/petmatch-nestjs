@@ -23,6 +23,7 @@ exports.create = (req, res) => {
     type_id: req.body.type_id,
 
   });
+  
 
   // Save Tutorial in the database
   User.create(user, (err, data) => {
