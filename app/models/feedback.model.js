@@ -31,7 +31,6 @@ Feedback.getAll = (result) => {
   });
 };
 
-
 Feedback.edit = (idFeed, updatedFeed, result) => {
   sql.query(
     "UPDATE feedback SET ? WHERE feedback_id = ?",

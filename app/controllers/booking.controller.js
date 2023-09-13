@@ -1,7 +1,7 @@
 const Book = require("../models/booking.model");
 
 
-// Create and Save a new Tutorial
+// อันนี้สร้างการจองน่ะ
 exports.create = (req, res) => {
   console.log(req);
   // Validate request
@@ -22,6 +22,7 @@ exports.create = (req, res) => {
     user_booking: req.body.user_booking,
     maidbooking: req.body.maidbooking,
   });
+
 
   // Save Tutorial in the database
   Book.create(book, (err, data) => {
@@ -60,6 +61,10 @@ exports.deleteBook = (req, res) => {
         });
       }
     }
+    res.json({
+      message: "Delete successful!",
+      userId,
+    });
     res.status(204).send();
   });
 };

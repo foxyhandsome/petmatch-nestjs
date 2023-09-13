@@ -38,6 +38,17 @@ User.getAll = (result) => {
   });
 };
 
+User.getUserType = (type_id, result) => {
+  sql.query("SELECT * FROM user WHERE type_id = ?", type_id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    console.log("users by type_id: ", res);
+    result(null, res);
+  });
+};
 
 User.edit = (idUser, updatedUser, result) => {
   sql.query(
@@ -64,7 +75,7 @@ User.edit = (idUser, updatedUser, result) => {
 
 User.login = (username, password, result) => {
   sql.query(
-    "SELECT * FROM user WHERE username_id = ? AND password_user = ?",
+    "SELECT * FROM user WHERE username = ? AND password = ?",
     [username, password],
     (err, res) => {
       if (err) {
@@ -92,7 +103,7 @@ User.delete = (userId, result) => {
 
     if (res.affectedRows === 0) {
       // User with the specified user_id was not found
-      result({ message: "User not found" }, null);
+      result({ message: "can't find" }, null);
       return;
     }
 

@@ -72,10 +72,14 @@ exports.deleteUser = (req, res) => {
         });
       } else {
         return res.status(500).json({
-          message: "An error occurred while deleting the user.",
+          message: "An error occurred while deleting the delete.",
         });
       }
     }
+    res.json({
+      message: "Delete successful!",
+      userId,
+    });
     res.status(204).send();
   });
 };
@@ -90,11 +94,23 @@ exports.findAllusers = (req, res) => {
   });
 };
 
-exports.editUser = (req, res) => {
-  const userId = req.params.username; // Assuming you get the id_user from the route parameter
-  const updatedUserData = req.body; // Assuming you send the updated user data in the request body
+exports.findAllusersByTypeId = (req, res) => {
+  const typeID = req.params.type_id;
 
-  // Call the edit method from the User model
+  User.getUserType(typeID, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving Users by typeID.",
+      });
+    else res.send(data);
+  });
+};
+
+exports.editUser = (req, res) => {
+  const userId = req.params.username; 
+  const updatedUserData = req.body; 
+
+  
   User.edit(userId, updatedUserData, (err, updatedUser) => {
     if (err) {
       console.error("Error during user editing:", err);

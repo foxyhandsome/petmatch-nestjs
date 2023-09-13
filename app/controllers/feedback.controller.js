@@ -54,6 +54,10 @@ exports.deleteFeed = (req, res) => {
         });
       }
     }
+    res.json({
+      message: "Delete successful!",
+      userId,
+    });
     res.status(204).send();
   });
 };
