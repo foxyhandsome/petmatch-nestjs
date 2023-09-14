@@ -14,23 +14,17 @@ export class User {
   password: string;
 
   @Column()
-  fname: string;
+  information: string;
 
   @Column()
-  lname: string;
+  contact: string;
 
   @Column()
-  phone: string;
+  id_district: number;
 
   @Column()
-  roomnumber: string;
+  id_subdistrict: number;
 
   @Column()
-  roomsize: string;
-
-  @Column()
-  maid_rating: number;
-
-  @Column()
-  type_id: number;
+  id_typeuser: number;
 }

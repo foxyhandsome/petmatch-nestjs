@@ -14,7 +14,7 @@ import { UsersModule } from './module/users/users.module';
       port: 7551,
       username: 'teddy',
       password: 'Teddynajaa1',
-      database: 'theprivacytaopoon',
+      database: 'petmatch',
       entities: [User, UserType],
       synchronize: false,
     }),
