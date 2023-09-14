@@ -4,7 +4,7 @@ import { User } from './User';
 @Entity({ name: 'usertype' })
 export class UserType {
 
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'bigint' })
   id_type: number;
 
   @Column()

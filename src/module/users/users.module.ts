@@ -1,3 +1,4 @@
+import { UserDao } from './dao/user.dao';
 import { UserType } from '../../entities/UserType';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -8,6 +9,6 @@ import { UsersService } from './services/users.service';
 @Module({
   imports: [TypeOrmModule.forFeature([User, UserType])],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService, UserDao],
 })
 export class UsersModule { }
