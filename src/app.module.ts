@@ -5,6 +5,14 @@ import { AppService } from './app.service';
 import { User } from './entities/User';
 import { UserType } from './entities/UserType';
 import { UsersModule } from './module/users/users.module';
+import { Bloodtype } from './entities/ฺBloodtype';
+import { District } from './entities/District';
+import { Pet } from './entities/Pet';
+import { PetBreed } from './entities/PetBreed';
+import { Petmatchinfo } from './entities/Petmatchinfo';
+import { Review } from './entities/Review';
+import { Skintype } from './entities/Skintype';
+import { Subdistrict } from './entities/Subdistrict';
 
 @Module({
   imports: [
@@ -15,7 +23,7 @@ import { UsersModule } from './module/users/users.module';
       username: 'teddy',
       password: 'Teddynajaa1',
       database: 'petmatch',
-      entities: [User, UserType],
+      entities: [User, UserType , Bloodtype , District , Pet , PetBreed , Petmatchinfo , Review , Skintype , Subdistrict],
       synchronize: false,
     }),
     UsersModule,
