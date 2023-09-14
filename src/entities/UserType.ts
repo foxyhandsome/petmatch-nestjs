@@ -5,12 +5,8 @@ import { User } from './User';
 export class UserType {
 
   @PrimaryGeneratedColumn({ type: 'bigint' })
-  id_type: number;
+  id_typeuser: number;
 
   @Column()
   type_name: string;
-
-  @Column()
-  type_description: string;
-
 }
