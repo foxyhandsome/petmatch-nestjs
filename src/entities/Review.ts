@@ -6,19 +6,19 @@ export class Review {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id_review: number;
 
-  @Column({ unique: true })
+  @Column()
   review_info: string;
 
-  @Column({ unique: true })
+  @Column()
   star: number;
 
-  @Column({ unique: true })
+  @Column()
   id_user: number;
 
-  @Column({ unique: true })
+  @Column()
   id_pet: number;
 
-  @Column({ unique: true })
+  @Column()
   admin_modify: string;
 
 

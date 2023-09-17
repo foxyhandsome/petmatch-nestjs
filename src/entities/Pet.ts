@@ -6,14 +6,14 @@ export class Pet {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id_pet: number;
 
-  @Column({ unique: true })
-  picture_pet: Blob;
+  @Column({ type: 'longblob' })
+  picture_pet: Buffer;
 
   @Column()
   sex_pet: string;
 
-  @Column()
-  health_pet: Blob;
+  @Column({ type: 'longblob' })
+  health_pet: Buffer;
 
   @Column()
   name_pet: string;

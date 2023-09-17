@@ -6,7 +6,7 @@ export class PetBreed {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id_breed: number;
 
-  @Column({ unique: true })
+  @Column()
   name_breed: string;
 
 }

@@ -6,7 +6,7 @@ export class Skintype {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id_skin: number;
 
-  @Column({ unique: true })
+  @Column()
   type_skin: string;
 
 }

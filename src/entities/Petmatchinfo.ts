@@ -6,7 +6,7 @@ export class Petmatchinfo {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id_match: number;
 
-  @Column({ unique: true })
+  @Column()
   id_user: number;
 
   @Column()

@@ -1,5 +1,5 @@
 import { Controller, Post, Delete, Body, Param, HttpException, HttpStatus, Get } from '@nestjs/common';
-import { UsersService } from '../services/users.service';
+import { UsersService } from '../services/user.service';
 
 @Controller('user')
 export class UsersController {
@@ -11,25 +11,25 @@ export class UsersController {
   }
 
 
-  @Get("/get")
+  @Get("/get-user")
   getUsers() {
     return this.userService.findUsers();
   }
 
-  @Post('/save')
+  @Post('/create-user')
   async createUser(@Body() createUserDto: CreateUserDto) {
     try {
       const newUser = await this.userService.createUser(createUserDto);
       return newUser;
     } catch (error) {
       throw new HttpException(
-        'Failed to create user. Please try again later.',
+        'เกิดข้อผิดพลาดในการสร้างผู้ใช้.',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
 
-  @Post('/edit')
+  @Post('/edit-user')
   async editUser(@Body() createUserDto: CreateUserDto) {
     try {
       const updatedUser = await this.userService.editUser(createUserDto);
@@ -44,7 +44,7 @@ export class UsersController {
     }
   }
 
-  @Delete('/delete/:id')
+  @Delete('/delete-user/:id')
   async deleteUser(@Param('id') userId: string) {
     try {
       const id = parseInt(userId, 10);

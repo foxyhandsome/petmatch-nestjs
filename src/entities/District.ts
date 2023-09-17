@@ -6,7 +6,7 @@ export class District {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id_district: number;
 
-  @Column({ unique: true })
+  @Column()
   name_district: string;
 
   @Column()

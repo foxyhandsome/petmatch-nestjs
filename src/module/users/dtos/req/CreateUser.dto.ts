@@ -3,11 +3,9 @@ interface CreateUserDto {
   id_user: number;
   username: string;
   password: string;
-  fname: string;
-  lname: string;
-  phone: string;
-  roomnumber: string;
-  roomsize: string;
-  maid_rating: number;
-  id_type: number;
+  information : string;
+  contact : string;
+  id_district : number;
+  id_subdistrict : number;
+  id_typeuser : number;
 }

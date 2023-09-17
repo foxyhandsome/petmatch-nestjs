@@ -6,10 +6,10 @@ export class Subdistrict {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id_subdistrict: number;
 
-  @Column({ unique: true })
+  @Column()
   name_subdistrict: string;
 
-  @Column({ unique: true })
+  @Column()
   id_district: number;
 
 }
