@@ -19,10 +19,12 @@ import { Bloodtype } from 'src/entities/ฺBloodtype';
 import { PetController } from './controllers/pet.controller';
 import { PetService } from './services/pet.service';
 import { PetDao } from './dao/pet.dao';
+import { LoginController } from './auth/controller/login.controller';
+import { LoginService } from './auth/service/login.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, UserType , Bloodtype , District , Pet , PetBreed , Petmatchinfo , Review , Skintype , Subdistrict])],
-  controllers: [UsersController , ReviewController , PetController],
-  providers: [UsersService, UserDao , ReviewService , ReviewDao , PetService , PetDao],
+  controllers: [UsersController , ReviewController , PetController , LoginController],
+  providers: [UsersService, UserDao , ReviewService , ReviewDao , PetService , PetDao , LoginService],
 })
 export class UsersModule { }
