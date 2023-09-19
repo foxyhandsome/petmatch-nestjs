@@ -13,8 +13,22 @@ export class ReviewService {
     @InjectRepository(Review) private reviewRepository: Repository<Review>,
   ) { }
 
-  findReview() {
-    return this.reviewRepository.find();
+  // findReview() {
+  //   return this.reviewRepository.find();
+  // }
+
+  async findReview() {
+    try {
+      const userToFindDistrict = await this.reviewDao.findReviewWithUsername();
+  
+      if (!userToFindDistrict || userToFindDistrict.length === 0) {
+        throw new NotFoundException('ไม่พบผู้ใช้');
+      }
+
+      return userToFindDistrict;
+    } catch (error) {
+      throw new Error(`เกิดข้อผิดพลาดในการค้นหาข้อมูลผู้ใช้: ${error.message}`);
+    }
   }
 
   async createReview(reviewDetails: CreateReviewDto) {

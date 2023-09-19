@@ -13,9 +13,24 @@ export class UsersService {
     @InjectRepository(User) private userRepository: Repository<User>,
   ) { }
 
-  findUsers() {
-    return this.userRepository.find();
+  // findUsers() {
+  //   return this.userRepository.find();
+  // }
+
+  async findDistrictSubdistrict() {
+    try {
+      const userToFindDistrict = await this.userDao.findDistrictSubdistrict();
+  
+      if (!userToFindDistrict || userToFindDistrict.length === 0) {
+        throw new NotFoundException('ไม่พบผู้ใช้');
+      }
+
+      return userToFindDistrict;
+    } catch (error) {
+      throw new Error(`เกิดข้อผิดพลาดในการค้นหาข้อมูลผู้ใช้: ${error.message}`);
+    }
   }
+
 
   async createUser(userDetails: CreateUserDto) {
     try {

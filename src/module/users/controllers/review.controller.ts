@@ -6,16 +6,21 @@ import { ReviewService } from '../services/review.service';
 export class ReviewController {
   constructor(private reviewService: ReviewService) { }
 
-  // @Get('/users-with-types')
-  // async findUsersWithUserTypes() {
-  //   return this.reviewService.findReviewWithUserTypes();
+  // @Get("/get-review")
+  // getUsers() {
+  //   return this.reviewService.findReview();
   // }
 
-
   @Get("/get-review")
-  getUsers() {
-    return this.reviewService.findReview();
+  async getdistrictsubdistrict() {
+  try {
+    const result = await this.reviewService.findReview();
+    return { message: result };
+  } catch (error) {
+    throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
   }
+}
+
 
   @Post('/create-review')
   async createReview(@Body() createReviewDto: CreateReviewDto) {

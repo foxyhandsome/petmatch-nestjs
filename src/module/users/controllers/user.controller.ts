@@ -11,10 +11,21 @@ export class UsersController {
   }
 
 
-  @Get("/get-user")
-  getUsers() {
-    return this.userService.findUsers();
+  // @Get("/get-user")
+  // getUsers() {
+  //   return this.userService.findUsers();
+  // }
+
+  @Get("/get-district-subdistrict")
+  async getdistrictsubdistrict() {
+  try {
+    const result = await this.userService.findDistrictSubdistrict();
+    return { message: result };
+  } catch (error) {
+    throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
   }
+}
+
 
   @Post('/create-user')
   async createUser(@Body() createUserDto: CreateUserDto) {
