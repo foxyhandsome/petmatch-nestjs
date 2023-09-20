@@ -9,19 +9,19 @@ import { Review } from 'src/entities/Review';
 @Injectable()
 export class ReviewService {
   constructor(
-    private readonly reviewDao: ReviewDao,
-    @InjectRepository(Review) private reviewRepository: Repository<Review>,
+    private readonly reviewDao: ReviewDao, //ตัวเเปร reviewDao เเละรับค่าจาก ReviewDao
+    @InjectRepository(Review) private reviewRepository: Repository<Review>, //รับจาก entities
   ) { }
 
   // findReview() {
   //   return this.reviewRepository.find();
   // }
 
-  async findReview() {
+  async findReview() { //ไว้หาข้อมูลรีวิว //findReview คือฟังชั่น 
     try {
-      const userToFindDistrict = await this.reviewDao.findReviewWithUsername();
+      const userToFindDistrict = await this.reviewDao.findReviewWithUsername(); //หาข้อมูลรีวิวเเละเรียก querry จาก reviewDao มาใช้
   
-      if (!userToFindDistrict || userToFindDistrict.length === 0) {
+      if (!userToFindDistrict || userToFindDistrict.length === 0) { //หาไม่เจอเเละไม่มีค่า
         throw new NotFoundException('ไม่พบผู้ใช้');
       }
 
@@ -31,20 +31,20 @@ export class ReviewService {
     }
   }
 
-  async createReview(reviewDetails: CreateReviewDto) {
+  async createReview(reviewDetails: CreateReviewDto) { //ไว้สร้างข้อมูลรีวิว //createReview คือฟังชั่น โดยสร้างพารามิเตอร์ reviewDetails ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลจาก CreateReviewDto
     try {
-      const newReview = this.reviewRepository.create({
+      const newReview = this.reviewRepository.create({ //ไว้เก็บข้อมูลรีวิวไว้ในตัวเเปร newReview จากการเก็บค่าข้อมูล reviewDetails ที่มากจาก CreateUserDto อีกที
         ...reviewDetails,
       });
-      return await this.reviewRepository.save(newReview);
+      return await this.reviewRepository.save(newReview); //บันทึกข้อมูลลงข้อมูลใน db
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async editReview(reviewDetails: CreateReviewDto) {
+  async editReview(reviewDetails: CreateReviewDto) { //ไว้เเก้ไขข้อมูลผู้ใช้ //editReview คือฟังชั่น โดยสร้างพารามิเตอร์ reviewDetails ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateReviewDto
     try {
-      const existingReview = await this.reviewRepository.findOneById(reviewDetails.id_review);
+      const existingReview = await this.reviewRepository.findOneById(reviewDetails.id_review); //ไว้เก็บข้อมูลไอดีรีวิวไว้ในตัวเเปร existingUser
       console.log(existingReview);
 
       if (!existingReview) {
@@ -52,22 +52,20 @@ export class ReviewService {
       }
       existingReview.review_info = reviewDetails.review_info;
       existingReview.star = reviewDetails.star;
-      return await this.reviewRepository.save(existingReview);
+      return await this.reviewRepository.save(existingReview); // อัปเดตข้อมูลผู้ใช้จาก reviewDetails ที่รับข้อมูลมาจากโครงสร้างข้อมูล CreateReviewDto ที่รับเข้ามาเมื่อเจอผู้ใช้ต้องการเเก้ไข
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async deleteReview(reviewId: number) {
+  async deleteReview(reviewId: number) { //ไว้ลบข้อมูลผู้ใช้ //deleteReview คือฟังชั่น โดยสร้างพารามิเตอร์ reviewId ที่เป็นตัวเลข
     try {
-      // Find the user by ID
-      const reviewToDelete = await this.reviewRepository.findOneById(reviewId);
+      const reviewToDelete = await this.reviewRepository.findOneById(reviewId); // ไว้ตรวจไอดีรีวิวเเละเก็บ
 
       if (!reviewToDelete) {
         throw new Error('หาผู้ใช้ไม่เจอ');
       }
-      // Delete the user
-      await this.reviewRepository.remove(reviewToDelete);
+      await this.reviewRepository.remove(reviewToDelete); // ลบข้อมูลรีวิวมื่อมีค่าตรงกับ db
       return `รีวิวไอดีที่: ${reviewId} ได้ถูกลบเรียบร้อยเเล้ว`;
     } catch (error) {
       throw new Error(`เกิดข้อผิดพลาดในการลบรีวิว: ${error.message}`);

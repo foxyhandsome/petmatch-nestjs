@@ -5,12 +5,12 @@ import { LoginService } from '../service/login.service';
 
 @Controller('auth')
 export class LoginController {
-  constructor(private olginService: LoginService) { }
-
-  @Post('/login-all')
-  async createUser(@Body() loginDto: LoginDto) {
+  constructor(private loginService: LoginService) { } //ตัวเเปร loginService เเละรับค่าจาก LoginService
+  
+  @Post('/login-all') //เส้น api
+  async createUser(@Body() loginDto: LoginDto) { //createUser คือฟังชั่น โดยสร้างพารามิเตอร์ loginDtto ที่เป็นอ๊อบเจ้กของ LoginDto
     try {
-      const newUser = await this.olginService.login(loginDto);
+      const newUser = await this.loginService.login(loginDto); //เรียกใช้ฟังชั่น login จาก service ที่ถูกส่งมาจาก loginDto
       return newUser;
     } catch (error) {
       throw new HttpException(

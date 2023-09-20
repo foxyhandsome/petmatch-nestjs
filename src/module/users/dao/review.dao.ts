@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class ReviewDao {
     constructor(
-        @InjectRepository(Review)
+        @InjectRepository(Review) //รับจาก entities
         private readonly userRepository: Repository<Review>,
     ) { }
 

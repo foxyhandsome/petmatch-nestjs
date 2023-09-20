@@ -7,8 +7,8 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class UserDao {
     constructor(
-        @InjectRepository(User)
-        private readonly userRepository: Repository<User>,
+        @InjectRepository(User) //รับจาก entities
+        private readonly userRepository: Repository<User>, 
     ) { }
 
     async findUsersWithUserTypes(): Promise<ResUserDto[]> {

@@ -1,27 +1,26 @@
-
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/entities/User';
 import { Repository } from 'typeorm';
 import { UserDao } from '../dao/user.dao';
+import { User } from 'src/entities/User';
 
 
 @Injectable()
 export class UsersService {
-  constructor(
-    private readonly userDao: UserDao,
-    @InjectRepository(User) private userRepository: Repository<User>,
+  constructor( 
+    private readonly userDao: UserDao, //ตัวเเปร userDao เเละรับค่าจาก ReviewDao
+    @InjectRepository(User) private userRepository: Repository<User>, //รับจาก entities
   ) { }
 
   // findUsers() {
   //   return this.userRepository.find();
   // }
 
-  async findDistrictSubdistrict() {
+  async findDistrictSubdistrict() {      //ไว้ทำการหาข้อมูลผู้ใช้ที่มีข้อมูลเขตและตำบล  //findDistrictSubdistrict คือฟังชั่น
     try {
-      const userToFindDistrict = await this.userDao.findDistrictSubdistrict();
+      const userToFindDistrict = await this.userDao.findDistrictSubdistrict(); //หาข้อมูลผู้ใช้ที่มีข้อมูลเขตเเละตำบลเเละเรียก querry จาก userdao
   
-      if (!userToFindDistrict || userToFindDistrict.length === 0) {
+      if (!userToFindDistrict || userToFindDistrict.length === 0) { //หาไม่เจอเเละไม่มีค่า
         throw new NotFoundException('ไม่พบผู้ใช้');
       }
 
@@ -32,57 +31,55 @@ export class UsersService {
   }
 
 
-  async createUser(userDetails: CreateUserDto) {
+  async createUser(userDetails: CreateUserDto) {  //ไว้สร้างข้อมูลผู้ใช้ใหม่ //createUser คือฟังชั่น โดยสร้างพารามิเตอร์ userDetails ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto
     try {
-      const newUser = this.userRepository.create({
+      const newUser = this.userRepository.create({ //ไว้เก็บข้อมูลผู้ใช้ไว้ในตัวเเปร newUser จากการเก็บค่าข้อมูล userDetails ที่มาจาก CreateUserDto อีกที
         ...userDetails,
       });
-      return await this.userRepository.save(newUser);
+      return await this.userRepository.save(newUser); //บันทึกข้อมูลลงข้อมูลใน db
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async editUser(userDetails: CreateUserDto) {
+  async editUser(userDetails: CreateUserDto) { //ไว้เเก้ไขข้อมูลผู้ใช้ //editUser คือฟังชั่น โดยสร้างพารามิเตอร์ userDetails ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto
     try {
-      const existingUser = await this.userRepository.findOneById(userDetails.id_user);
+      const existingUser = await this.userRepository.findOneById(userDetails.id_user); //ไว้เก็บข้อมูลไอดีผู้ใช้ไว้ในตัวเเปร existingUser
       console.log(existingUser);
 
-      if (!existingUser) {
+      if (!existingUser) { //หาไม่เจอ หรือ ไม่มีค่า
         throw new Error('หาผู้ใช้ไม่เจอ');
       }
-      existingUser.username = userDetails.username;
-      existingUser.password = userDetails.password;
-      return await this.userRepository.save(existingUser);
+      existingUser.username = userDetails.username; 
+      existingUser.password = userDetails.password; 
+      return await this.userRepository.save(existingUser); // อัปเดตข้อมูลผู้ใช้จาก userDetails ที่รับข้อมูลมาจากโครงสร้างข้อมูล CreateUserDto ที่รับเข้ามาเมื่อเจอผู้ใช้ต้องการเเก้ไข
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async deleteUser(userId: number) {
+  async deleteUser(userId: number) { //ไว้ลบข้อมูลผู้ใช้ //ไว้ลบข้อมูลผู้ใช้ //deleteUser คือฟังชั่น โดยสร้างพารามิเตอร์ userId ที่เป็นตัวเลข
     try {
-      // Find the user by ID
-      const userToDelete = await this.userRepository.findOneById(userId);
+      const userToDelete = await this.userRepository.findOneById(userId); // ไว้ตรวจไอดีผู้ใช้เเละเก็บ
 
-      if (!userToDelete) {
+      if (!userToDelete) { //หาไม่เจอไอดี
         throw new Error('หาผู้ใช้ไม่เจอ');
       }
-      // Delete the user
-      await this.userRepository.remove(userToDelete);
+      await this.userRepository.remove(userToDelete); //ลบข้อมูลผู้ใช้เมื่อมีค่าตรงกับ db
       return `ไอดีผู้ใช้ : ${userId} ได้ถูกลบข้อมูลเรียบร้อยเเล้ว`;
     } catch (error) {
       throw new Error(`เกิดข้อผิดพลาดในการลบข้อมูล: ${error.message}`);
     }
   }
 
-  async findUsersWithUserTypes(): Promise<ResUserDto[]> {
-    try {
-      const usersWithTypes = await this.userDao.findUsersWithUserTypes();
-      return usersWithTypes;
-    } catch (error) {
-      throw new Error(`ดึงข้อมูลผู้ใช้ตามประเภทผู้ใช้ไม่สำเร็จ: ${error.message}`);
-    }
-  }
+  // async findUsersWithUserTypes(): Promise<ResUserDto[]> {
+  //   try {
+  //     const usersWithTypes = await this.userDao.findUsersWithUserTypes();
+  //     return usersWithTypes;
+  //   } catch (error) {
+  //     throw new Error(`ดึงข้อมูลผู้ใช้ตามประเภทผู้ใช้ไม่สำเร็จ: ${error.message}`);
+  //   }
+  // }
 
 
 }
@@ -93,7 +90,3 @@ export class UsersService {
   // deleteUser(id: number) {
   //   return this.userRepository.delete({ id });
   // }
-
-
-
-
