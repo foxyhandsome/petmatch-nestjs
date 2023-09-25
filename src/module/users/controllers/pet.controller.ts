@@ -5,16 +5,24 @@ import { PetService } from '../services/pet.service';
 export class PetController {
   constructor(private petService: PetService) { }
 
-  // @Get('/users-with-types')
-  // async findPetWithUserTypes() {
-  //   return this.petService.findUsersWithUserTypes();
+
+  // @Get("/get-pet")
+  // getPet() {
+  //   return this.petService.findPet();
   // }
 
-
-  @Get("/get-pet")
-  getPet() {
-    return this.petService.findPet();
+  @Get("/get-pet-withinfo") //เส้น api
+  async findPetwithallinfo() { //getdistrictsubdistrict คือฟังชั่น
+  try {
+    const result = await this.petService.findPetwithallinfo(); //เรียกใช้ฟังชั่น findDistrictSubdistrict เเละส่งให้กับ result
+    return { message: result };
+  } catch (error) {
+    throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
   }
+}
+
+
+
 
   @Post('/create-pet')
   async createPet(@Body() createPetDto: CreatePetDto) {

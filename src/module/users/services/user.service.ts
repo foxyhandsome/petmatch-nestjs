@@ -71,22 +71,4 @@ export class UsersService {
       throw new Error(`เกิดข้อผิดพลาดในการลบข้อมูล: ${error.message}`);
     }
   }
-
-  // async findUsersWithUserTypes(): Promise<ResUserDto[]> {
-  //   try {
-  //     const usersWithTypes = await this.userDao.findUsersWithUserTypes();
-  //     return usersWithTypes;
-  //   } catch (error) {
-  //     throw new Error(`ดึงข้อมูลผู้ใช้ตามประเภทผู้ใช้ไม่สำเร็จ: ${error.message}`);
-  //   }
-  // }
-
-
 }
-
-
-
-
-  // deleteUser(id: number) {
-  //   return this.userRepository.delete({ id });
-  // }

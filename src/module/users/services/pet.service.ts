@@ -13,8 +13,22 @@ export class PetService {
     @InjectRepository(Pet) private petRepository: Repository<Pet>,
   ) { }
 
-  findPet() {
-    return this.petRepository.find();
+  // findPet() {
+  //   return this.petRepository.find();
+  // }
+
+  async findPetwithallinfo() {      //ไว้ทำการหาข้อมูลผู้ใช้ที่มีข้อมูลเขตและตำบล  //findDistrictSubdistrict คือฟังชั่น
+    try {
+      const petToFind = await this.petDao.findPetwithallinfo(); //หาข้อมูลผู้ใช้ที่มีข้อมูลเขตเเละตำบลเเละเรียก querry จาก userdao
+  
+      if (!petToFind || petToFind.length === 0) { //หาไม่เจอเเละไม่มีค่า
+        throw new NotFoundException('ไม่พบผู้ใช้');
+      }
+
+      return petToFind;
+    } catch (error) {
+      throw new Error(`เกิดข้อผิดพลาดในการค้นหาข้อมูลผู้ใช้: ${error.message}`);
+    }
   }
 
   async createPet(petDetails: CreatePetDto) {
@@ -70,11 +84,6 @@ export class PetService {
 }
 
 
-
-
-  // deleteUser(id: number) {
-  //   return this.userRepository.delete({ id });
-  // }
 
 
 

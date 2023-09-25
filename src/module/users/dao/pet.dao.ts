@@ -11,9 +11,14 @@ export class PetDao {
         private readonly userRepository: Repository<Review>,
     ) { }
 
-    async findReviewWithUserTypes(): Promise<ResReviewDto[]> { // Update the return type
+    async findPetwithallinfo(): Promise<ResReviewDto[]> { // Update the return type
         try {
-            const query = ` SELECT * FROM user INNER JOIN usertype ON user.type_id = usertype.id_type`;
+            const query = ` 
+            SELECT * FROM pet
+            INNER JOIN skintype ON skintype.id_skin = pet.id_skin
+            INNER JOIN bloodtype ON bloodtype.id_blood = pet.id_blood
+            INNER JOIN user ON user.id_user = pet.id_user
+            INNER JOIN petbreed ON petbreed.id_breed = pet.id_breed`;
             const results = await this.userRepository.query(query);
             if (!results || results.length === 0) {
                 throw new NotFoundException('No users with user types found.');

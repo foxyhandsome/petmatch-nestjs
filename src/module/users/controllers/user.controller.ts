@@ -16,7 +16,7 @@ export class UsersController {
   //   return this.userService.findUsers();
   // }
 
-  @Get("/get-district-subdistrict") //เส้น api
+  @Get("/get-userwithdistrict-subdistrict") //เส้น api
   async getdistrictsubdistrict() { //getdistrictsubdistrict คือฟังชั่น
   try {
     const result = await this.userService.findDistrictSubdistrict(); //เรียกใช้ฟังชั่น findDistrictSubdistrict เเละส่งให้กับ result

@@ -11,19 +11,6 @@ export class UserDao {
         private readonly userRepository: Repository<User>, 
     ) { }
 
-    async findUsersWithUserTypes(): Promise<ResUserDto[]> {
-        try {
-            const query = ` SELECT * FROM user INNER JOIN usertype ON user.type_id = usertype.id_type`;
-            const results = await this.userRepository.query(query);
-            if (!results || results.length === 0) {
-                throw new NotFoundException('No users with user types found.');
-            }
-            return results;
-        } catch (error) {
-            throw new Error(`Failed to fetch users with user types: ${error.message}`);
-        }
-    }
-
     async findDistrictSubdistrict(): Promise<ResUserDto[]> {
         try {
           const query = `
