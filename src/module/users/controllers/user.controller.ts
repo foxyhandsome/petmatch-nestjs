@@ -1,4 +1,4 @@
-import { Controller, Post, Delete, Body, Param, HttpException, HttpStatus, Get } from '@nestjs/common';
+import { Controller, Post, Delete, Body, Param, HttpException, HttpStatus, Get, NotFoundException } from '@nestjs/common';
 import { UsersService } from '../services/user.service';
 
 @Controller('user')
@@ -16,7 +16,7 @@ export class UsersController {
   //   return this.userService.findUsers();
   // }
 
-  @Get("/get-userwithdistrict-subdistrict") //เส้น api
+  @Get("/get-user-withdistrict-subdistrict") //เส้น api
   async getdistrictsubdistrict() { //getdistrictsubdistrict คือฟังชั่น
   try {
     const result = await this.userService.findDistrictSubdistrict(); //เรียกใช้ฟังชั่น findDistrictSubdistrict เเละส่งให้กับ result
@@ -26,6 +26,14 @@ export class UsersController {
   }
 }
 
+  @Get('/get-user/:id_user') 
+    async findUserById(@Param('id_user') id_user: number) {
+      const user = await this.userService.finduserbyid(id_user);
+      if (!user) {
+        throw new NotFoundException('หาผู้ใช้ไม่เจอ');
+      }
+      return user;
+    }
 
   @Post('/create-user') //เส้น api
   async createUser(@Body() createUserDto: CreateUserDto) { //createUser คือฟังชั่น  โดยสร้างพารามิเตอร์ createUserDto ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto
@@ -42,7 +50,7 @@ export class UsersController {
 
   @Post('/edit-user') //เส้น api
   async editUser(@Body() createUserDto: CreateUserDto) { //editUser คือฟังชั่น  โดยสร้างพารามิเตอร์ createUserDto ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto
-    try {
+    try { 
       const updatedUser = await this.userService.editUser(createUserDto); //updatedUser คือเเปร เเละมีการเรียกใช้ฟั่งชั่น editUser <-- ถูกส่งข้อมูลผู้ใช้ผ่าน createUserDto
       return updatedUser;
     } catch (error) {
