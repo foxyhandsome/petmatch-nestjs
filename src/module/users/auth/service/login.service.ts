@@ -20,9 +20,9 @@ export class LoginService {
     const query = `
     SELECT * FROM user
     INNER JOIN user_type ON user.id_typeuser = user_type.id_typeuser 
-    WHERE username = ? and password = ? and user_type.type_name = "ผู้ดูเเลระบบ";
+    WHERE username = ? and password = ? and user_type.type_name = ?;
     `;
-    const [user] = await this.userRepository.query(query, [loginReq.username, loginReq.password]); //ค้นหาข้อมูลผู้ใช้ใน db
+    const [user] = await this.userRepository.query(query, [loginReq.username, loginReq.password,loginReq.type_name]); //ค้นหาข้อมูลผู้ใช้ใน db
     if (!user) {
       throw new NotFoundException('หาผู้ใช้ไม่เจอ');
     }
