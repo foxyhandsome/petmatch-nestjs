@@ -21,10 +21,15 @@ import { PetService } from './services/pet.service';
 import { PetDao } from './dao/pet.dao';
 import { LoginController } from './auth/controller/login.controller';
 import { LoginService } from './auth/service/login.service';
+import { DistrictController } from './controllers/district.controller';
+import { DistrictService } from './services/district.service';
+import { SubDistrictService } from './services/subdistrict.service';
+import { SubdistrictDao } from './dao/subdistrict.dao';
+import { SubdistrictController } from './controllers/subdistrict.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, UserType , Bloodtype , District , Pet , PetBreed , Petmatchinfo , Review , Skintype , Subdistrict])],
-  controllers: [UsersController , ReviewController , PetController , LoginController],
-  providers: [UsersService, UserDao , ReviewService , ReviewDao , PetService , PetDao , LoginService],
+  controllers: [UsersController , ReviewController , PetController , LoginController , DistrictController , SubdistrictController],
+  providers: [UsersService, UserDao , ReviewService , ReviewDao , PetService , PetDao , LoginService , DistrictService , SubDistrictService , SubdistrictDao ],
 })
 export class UsersModule { }
