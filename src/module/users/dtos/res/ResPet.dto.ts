@@ -1,4 +1,3 @@
-
 interface ResPetDto {
   id_pet: number;
   picture_pet: Buffer;

@@ -11,10 +11,10 @@ export class UsersController {
   // }
 
 
-  // @Get("/get-user")
-  // getUsers() {
-  //   return this.userService.findUsers();
-  // }
+  @Get("/get-user")
+  getUsers() {
+    return this.userService.findUsers();
+  }
 
   @Get("/get-user-withdistrict-subdistrict") //เส้น api
   async getdistrictsubdistrict() { //getdistrictsubdistrict คือฟังชั่น

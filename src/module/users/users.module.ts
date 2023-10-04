@@ -26,10 +26,16 @@ import { DistrictService } from './services/district.service';
 import { SubDistrictService } from './services/subdistrict.service';
 import { SubdistrictDao } from './dao/subdistrict.dao';
 import { SubdistrictController } from './controllers/subdistrict.controller';
+import { PetBreedController } from './controllers/petbreed.controller';
+import { PetBreedService } from './services/petbreed.service';
+import { PetSkinService } from './services/petskin.service';
+import { PetSkinController } from './controllers/petskin.controller';
+import { PetBloodService } from './services/petblood.service';
+import { PetBloodController } from './controllers/petblood.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, UserType , Bloodtype , District , Pet , PetBreed , Petmatchinfo , Review , Skintype , Subdistrict])],
-  controllers: [UsersController , ReviewController , PetController , LoginController , DistrictController , SubdistrictController],
-  providers: [UsersService, UserDao , ReviewService , ReviewDao , PetService , PetDao , LoginService , DistrictService , SubDistrictService , SubdistrictDao ],
+  controllers: [UsersController , ReviewController , PetController , LoginController , DistrictController , SubdistrictController , PetBreedController , PetSkinController , PetBloodController],
+  providers: [UsersService, UserDao , ReviewService , ReviewDao , PetService , PetDao , LoginService , DistrictService , SubDistrictService , SubdistrictDao , PetBreedService , PetSkinService , PetBloodService],
 })
 export class UsersModule { }

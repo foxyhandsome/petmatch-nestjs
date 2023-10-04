@@ -7,19 +7,19 @@ import { User } from 'src/entities/User';
 
 @Injectable()
 export class UsersService {
-  constructor( 
+  constructor(
     private readonly userDao: UserDao, //ตัวเเปร userDao เเละรับค่าจาก UserDao
     @InjectRepository(User) private userRepository: Repository<User>, //รับจาก entities
   ) { }
 
-  // findUsers() {
-  //   return this.userRepository.find();
-  // }
+  findUsers() {
+    return this.userRepository.find();
+  }
 
   async findDistrictSubdistrict() {      //ไว้ทำการหาข้อมูลผู้ใช้ที่มีข้อมูลเขตและตำบล  //findDistrictSubdistrict คือฟังชั่น
     try {
       const userToFindDistrict = await this.userDao.findDistrictSubdistrict(); //หาข้อมูลผู้ใช้ที่มีข้อมูลเขตเเละตำบลเเละเรียก querry จาก userdao
-  
+
       if (!userToFindDistrict || userToFindDistrict.length === 0) { //หาไม่เจอเเละไม่มีค่า
         throw new NotFoundException('ไม่พบผู้ใช้');
       }
@@ -34,7 +34,7 @@ export class UsersService {
     const resUser: ResUserDto[] = await this.userDao.finduserbyid(id_user);
 
     if (!resUser || resUser.length === 0) {
-      return null; 
+      return null;
     }
 
     const user: User = {
@@ -70,8 +70,8 @@ export class UsersService {
       if (!existingUser) { //หาไม่เจอ หรือ ไม่มีค่า
         throw new Error('หาผู้ใช้ไม่เจอ');
       }
-      existingUser.username = userDetails.username; 
-      existingUser.password = userDetails.password; 
+      existingUser.username = userDetails.username;
+      existingUser.password = userDetails.password;
       return await this.userRepository.save(existingUser); // อัปเดตข้อมูลผู้ใช้จาก userDetails ที่รับข้อมูลมาจากโครงสร้างข้อมูล CreateUserDto ที่รับเข้ามาเมื่อเจอผู้ใช้ต้องการเเก้ไข
     } catch (error) {
       throw new Error(error);

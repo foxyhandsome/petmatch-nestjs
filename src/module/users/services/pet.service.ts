@@ -13,10 +13,6 @@ export class PetService {
     @InjectRepository(Pet) private petRepository: Repository<Pet>,
   ) { }
 
-  // findPet() {
-  //   return this.petRepository.find();
-  // }
-
   async findPetwithallinfo() {      //ไว้ทำการหาข้อมูลผู้ใช้ที่มีข้อมูลเขตและตำบล  //findDistrictSubdistrict คือฟังชั่น
     try {
       const petToFind = await this.petDao.findPetwithallinfo(); //หาข้อมูลผู้ใช้ที่มีข้อมูลเขตเเละตำบลเเละเรียก querry จาก userdao
