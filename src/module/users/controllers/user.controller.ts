@@ -48,10 +48,10 @@ export class UsersController {
     }
   }
 
-  @Post('/edit-user') //เส้น api
-  async editUser(@Body() createUserDto: CreateUserDto) { //editUser คือฟังชั่น  โดยสร้างพารามิเตอร์ createUserDto ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto
+  @Post('/edit-user/:id') //เส้น api
+  async editUser(@Param('id') id_user:number ,@Body() createUserDto: CreateUserDto) { //editUser คือฟังชั่น  โดยสร้างพารามิเตอร์ createUserDto ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto
     try { 
-      const updatedUser = await this.userService.editUser(createUserDto); //updatedUser คือเเปร เเละมีการเรียกใช้ฟั่งชั่น editUser <-- ถูกส่งข้อมูลผู้ใช้ผ่าน createUserDto
+      const updatedUser = await this.userService.editUser(id_user,createUserDto); //updatedUser คือเเปร เเละมีการเรียกใช้ฟั่งชั่น editUser <-- ถูกส่งข้อมูลผู้ใช้ผ่าน createUserDto
       return updatedUser;
     } catch (error) {
       console.log(error);

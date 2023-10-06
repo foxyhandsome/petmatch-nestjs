@@ -62,9 +62,9 @@ export class UsersService {
     }
   }
 
-  async editUser(userDetails: CreateUserDto) { //ไว้เเก้ไขข้อมูลผู้ใช้ //editUser คือฟังชั่น โดยสร้างพารามิเตอร์ userDetails ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto
+  async editUser(id_user: number,userDetails: CreateUserDto) { //ไว้เเก้ไขข้อมูลผู้ใช้ //editUser คือฟังชั่น โดยสร้างพารามิเตอร์ userDetails ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto
     try {
-      const existingUser = await this.userRepository.findOneById(userDetails.id_user); //ไว้เก็บข้อมูลไอดีผู้ใช้ไว้ในตัวเเปร existingUser
+      const existingUser = await this.userRepository.findOneById(id_user); //ไว้เก็บข้อมูลไอดีผู้ใช้ไว้ในตัวเเปร existingUser
       console.log(existingUser);
 
       if (!existingUser) { //หาไม่เจอ หรือ ไม่มีค่า
@@ -72,6 +72,10 @@ export class UsersService {
       }
       existingUser.username = userDetails.username;
       existingUser.password = userDetails.password;
+      existingUser.information = userDetails.information;
+      existingUser.contact = userDetails.contact;
+      existingUser.id_district = userDetails.id_district;
+      existingUser.id_subdistrict = userDetails.id_subdistrict;
       return await this.userRepository.save(existingUser); // อัปเดตข้อมูลผู้ใช้จาก userDetails ที่รับข้อมูลมาจากโครงสร้างข้อมูล CreateUserDto ที่รับเข้ามาเมื่อเจอผู้ใช้ต้องการเเก้ไข
     } catch (error) {
       throw new Error(error);
