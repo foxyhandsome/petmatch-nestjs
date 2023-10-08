@@ -1,4 +1,4 @@
-import { Controller, Post, Delete, Body, Param, HttpException, HttpStatus, Get } from '@nestjs/common';
+import { Controller, Post, Delete, Body, Param, HttpException, HttpStatus, Get, NotFoundException } from '@nestjs/common';
 import { PetService } from '../services/pet.service';
 
 @Controller('pet')
@@ -21,6 +21,15 @@ export class PetController {
   }
 }
 
+  @Get('/get-pet/:id_pet')
+  async findPetById(@Param('id_pet') id_pet: number) {
+    const pet = await this.petService.findpetbyid(id_pet);
+    if (!pet) {
+      throw new NotFoundException('หาสัตว์เลี้ยงไม่เจอ');
+    }
+    return pet;
+  }
+
 
 
 
@@ -37,10 +46,10 @@ export class PetController {
     }
   }
 
-  @Post('/edit-pet')
-  async editPet(@Body() createPetDto: CreatePetDto) {
+  @Post('/edit-pet/:id')
+  async editPet(@Param('id') id_pet:number ,@Body() createPetDto: CreatePetDto) {
     try {
-      const updatedPet = await this.petService.editPet(createPetDto);
+      const updatedPet = await this.petService.editPet(id_pet , createPetDto);
       return updatedPet;
     } catch (error) {
       console.log(error);

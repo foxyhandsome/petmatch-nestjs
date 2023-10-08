@@ -31,24 +31,8 @@ export class UsersService {
   }
 
   async finduserbyid(id_user: number): Promise<User | null> {
-    const resUser: ResUserDto[] = await this.userDao.finduserbyid(id_user);
-
-    if (!resUser || resUser.length === 0) {
-      return null;
-    }
-
-    const user: User = {
-      id_user: resUser[0].id_user,
-      username: resUser[0].username,
-      password: resUser[0].password,
-      information: resUser[0].information,
-      contact: resUser[0].contact,
-      id_district: resUser[0].id_district,
-      id_subdistrict: resUser[0].id_subdistrict,
-      id_typeuser: resUser[0].id_typeuser
-    };
-
-    return user;
+    const resUser: ResUserDto = await this.userDao.finduserbyid(id_user);
+    return resUser;
   }
 
   async createUser(userDetails: CreateUserDto) {  //ไว้สร้างข้อมูลผู้ใช้ใหม่ //createUser คือฟังชั่น โดยสร้างพารามิเตอร์ userDetails ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto

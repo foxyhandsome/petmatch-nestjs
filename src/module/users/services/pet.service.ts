@@ -27,6 +27,11 @@ export class PetService {
     }
   }
 
+  async findpetbyid(id_pet: number): Promise<Pet | null> {
+    const resPet: ResPetDto = await this.petDao.findpetbyid(id_pet);
+    return resPet;
+  }
+
   async createPet(petDetails: CreatePetDto) {
     try {
       const newPet = this.petRepository.create({
@@ -38,9 +43,9 @@ export class PetService {
     }
   }
 
-  async editPet(petDetails: CreatePetDto) {
+  async editPet(id_pet: number,petDetails: CreatePetDto) {
     try {
-      const existingPet = await this.petRepository.findOneById(petDetails.id_pet);
+      const existingPet = await this.petRepository.findOneById(id_pet);
       console.log(existingPet);
 
       if (!existingPet) {

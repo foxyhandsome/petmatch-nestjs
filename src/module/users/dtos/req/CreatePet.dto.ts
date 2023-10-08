@@ -1,4 +1,3 @@
-
 interface CreatePetDto {
   id_pet: number;
   picture_pet: Buffer;

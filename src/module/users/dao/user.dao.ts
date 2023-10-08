@@ -30,7 +30,7 @@ export class UserDao {
         }
       }
 
-      async finduserbyid(id_user: number): Promise<ResUserDto[]> {
+      async finduserbyid(id_user: number): Promise<ResUserDto> {
         try {
           const query = `
             SELECT * 
