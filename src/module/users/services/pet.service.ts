@@ -51,9 +51,13 @@ export class PetService {
       if (!existingPet) {
         throw new Error('หาสัตว์เลี้ยงไม่เจอ');
       }
-      existingPet.picture_pet = petDetails.picture_pet;
+      if(petDetails.picture_pet){
+        existingPet.picture_pet = petDetails.picture_pet;
+      }
+      if(petDetails.health_pet){
+        existingPet.health_pet	= petDetails.health_pet;
+      }
       existingPet.sex_pet	 = petDetails.sex_pet;
-      existingPet.health_pet	= petDetails.health_pet;
       existingPet.name_pet	= petDetails.name_pet;
       existingPet.age_pet	= petDetails.age_pet;
       existingPet.id_skin 	= petDetails.id_skin;
