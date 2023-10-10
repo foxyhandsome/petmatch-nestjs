@@ -48,4 +48,24 @@ export class UserDao {
           throw new Error(`เกิดข้อผิดพลาดในการค้นหาไอดีผู้ใช้: ${error.message}`);
         }
       }
+
+      async findUserbyUser(): Promise<ResUserDto[]> {
+        try {
+          const query = `
+            SELECT * 
+            FROM user
+            WHERE user.id_typeuser = 1
+            `;
+      
+          const results = await this.userRepository.query(query); 
+      
+          if (!results || results.length === 0) {
+            throw new NotFoundException('ไม่พบผู้ใช้');
+          }
+      
+          return results;
+        } catch (error) {
+          throw new Error(`เกิดข้อผิดพลาดในการค้นหาข้อมูลผู้ใช้: ${error.message}`);
+        }
+      }
 }

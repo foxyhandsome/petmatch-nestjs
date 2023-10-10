@@ -12,7 +12,7 @@ export class UsersService {
     @InjectRepository(User) private userRepository: Repository<User>, //รับจาก entities
   ) { }
 
-  findUsers() {
+  findAllUsers() {
     return this.userRepository.find();
   }
 
@@ -35,6 +35,11 @@ export class UsersService {
     return resUser;
   }
 
+  async finduserbyuser() {
+    const FindUser = await this.userDao.findUserbyUser();
+    return FindUser;
+  }
+
   async createUser(userDetails: CreateUserDto) {  //ไว้สร้างข้อมูลผู้ใช้ใหม่ //createUser คือฟังชั่น โดยสร้างพารามิเตอร์ userDetails ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto
     try {
       const newUser = this.userRepository.create({ //ไว้เก็บข้อมูลผู้ใช้ไว้ในตัวเเปร newUser จากการเก็บค่าข้อมูล userDetails ที่มาจาก CreateUserDto อีกที
@@ -48,19 +53,19 @@ export class UsersService {
 
   async editUser(id_user: number,userDetails: CreateUserDto) { //ไว้เเก้ไขข้อมูลผู้ใช้ //editUser คือฟังชั่น โดยสร้างพารามิเตอร์ userDetails ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto
     try {
-      const existingUser = await this.userRepository.findOneById(id_user); //ไว้เก็บข้อมูลไอดีผู้ใช้ไว้ในตัวเเปร existingUser
-      console.log(existingUser);
+      const editingUser = await this.userRepository.findOneById(id_user); //ไว้เก็บข้อมูลไอดีผู้ใช้ไว้ในตัวเเปร existingUser
+      console.log(editingUser);
 
-      if (!existingUser) { //หาไม่เจอ หรือ ไม่มีค่า
+      if (!editingUser) { //หาไม่เจอ หรือ ไม่มีค่า
         throw new Error('หาผู้ใช้ไม่เจอ');
       }
-      existingUser.username = userDetails.username;
-      existingUser.password = userDetails.password;
-      existingUser.information = userDetails.information;
-      existingUser.contact = userDetails.contact;
-      existingUser.id_district = userDetails.id_district;
-      existingUser.id_subdistrict = userDetails.id_subdistrict;
-      return await this.userRepository.save(existingUser); // อัปเดตข้อมูลผู้ใช้จาก userDetails ที่รับข้อมูลมาจากโครงสร้างข้อมูล CreateUserDto ที่รับเข้ามาเมื่อเจอผู้ใช้ต้องการเเก้ไข
+      editingUser.username = userDetails.username;
+      editingUser.password = userDetails.password;
+      editingUser.information = userDetails.information;
+      editingUser.contact = userDetails.contact;
+      editingUser.id_district = userDetails.id_district;
+      editingUser.id_subdistrict = userDetails.id_subdistrict;
+      return await this.userRepository.save(editingUser); // อัปเดตข้อมูลผู้ใช้จาก userDetails ที่รับข้อมูลมาจากโครงสร้างข้อมูล CreateUserDto ที่รับเข้ามาเมื่อเจอผู้ใช้ต้องการเเก้ไข
     } catch (error) {
       throw new Error(error);
     }

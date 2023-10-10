@@ -11,9 +11,9 @@ export class UsersController {
   // }
 
 
-  @Get("/get-user")
+  @Get("/get-all-user")
   getUsers() {
-    return this.userService.findUsers();
+    return this.userService.findAllUsers();
   }
 
   @Get("/get-user-withdistrict-subdistrict") //เส้น api
@@ -34,6 +34,17 @@ export class UsersController {
       }
       return user;
     }
+
+  @Get("/get-user-by-user") //เส้น api
+    async findUserbyuser() { 
+    try {
+      const result = await this.userService.finduserbyuser(); //เรียกใช้ฟังชั่น findDistrictSubdistrict เเละส่งให้กับ result
+      return result;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
 
   @Post('/create-user') //เส้น api
   async createUser(@Body() createUserDto: CreateUserDto) { //createUser คือฟังชั่น  โดยสร้างพารามิเตอร์ createUserDto ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto

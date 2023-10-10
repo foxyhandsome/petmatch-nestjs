@@ -12,9 +12,9 @@ export class PetController {
   // }
 
   @Get("/get-pet-withinfo") //เส้น api
-  async findPetwithallinfo() { //getdistrictsubdistrict คือฟังชั่น
+  async findPetwithallinfo() { 
   try {
-    const result = await this.petService.findPetwithallinfo(); //เรียกใช้ฟังชั่น findDistrictSubdistrict เเละส่งให้กับ result
+    const result = await this.petService.findPetwithallinfo(); 
     return { message: result };
   } catch (error) {
     throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -40,7 +40,7 @@ export class PetController {
       return newPet;
     } catch (error) {
       throw new HttpException(
-        'เกิดข้อผิดพลาดในการสร้างผู้ใช้.',
+        'เกิดข้อผิดพลาดในการสร้างสัตว์เลี้ยง.',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
