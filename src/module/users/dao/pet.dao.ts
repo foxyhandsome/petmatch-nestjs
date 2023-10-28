@@ -47,4 +47,23 @@ export class PetDao {
           throw new Error(`เกิดข้อผิดพลาดในการค้นหาไอดีสัตว์เลี้ยง: ${error.message}`);
         }
       }
+
+      async findpetbyuserid(id_user: number): Promise<ResPetDto> {
+        try {
+          const query = `
+            SELECT * 
+            FROM pet  
+            WHERE pet.id_user = ? `; 
+
+          const results = await this.petRepository.query(query, [id_user]); 
+
+          if (!results || results.length === 0) {
+            throw new NotFoundException('หาไอดีสัตว์เลี้ยงไม่เจอ');
+          }
+
+          return results;
+        } catch (error) {
+          throw new Error(`เกิดข้อผิดพลาดในการค้นหาไอดีสัตว์เลี้ยง: ${error.message}`);
+        }
+      }
 }

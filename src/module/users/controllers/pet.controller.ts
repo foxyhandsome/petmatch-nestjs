@@ -30,6 +30,17 @@ export class PetController {
     return pet;
   }
 
+  @Get('/get-pet-by-userid/:id_user')
+  async findPetByUserId(@Param('id_user') id_user: number) {
+    const pet = await this.petService.findpetbyuserid(id_user);
+    if (!pet) {
+      throw new NotFoundException('หาสัตว์เลี้ยงไม่เจอ');
+    }
+    return pet;
+  }
+
+
+
 
 
 

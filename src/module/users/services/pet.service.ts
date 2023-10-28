@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PetDao } from '../dao/pet.dao';
 import { Pet } from 'src/entities/Pet';
+import { User } from 'src/entities/User';
 
 
 @Injectable()
@@ -31,6 +32,18 @@ export class PetService {
     const resPet: ResPetDto = await this.petDao.findpetbyid(id_pet);
     return resPet;
   }
+
+  
+  async findpetbyuserid(id_user: number): Promise<Pet | null> {
+    const resPet: ResPetDto = await this.petDao.findpetbyuserid(id_user);
+    return resPet;
+  }
+
+  // async findpetbyid(id_pet: number): Promise<Pet | null> {
+  //   const resPet: ResPetDto = await this.petDao.findpetbyid(id_pet);
+  //   return resPet;
+  // }
+
 
   async createPet(petDetails: CreatePetDto) {
     try {
