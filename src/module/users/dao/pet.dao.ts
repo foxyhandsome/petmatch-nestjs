@@ -51,8 +51,11 @@ export class PetDao {
       async findpetbyuserid(id_user: number): Promise<ResPetDto> {
         try {
           const query = `
-            SELECT * 
-            FROM pet  
+            SELECT * FROM pet
+            INNER JOIN skintype ON skintype.id_skin = pet.id_skin
+            INNER JOIN bloodtype ON bloodtype.id_blood = pet.id_blood
+            INNER JOIN user ON user.id_user = pet.id_user
+            INNER JOIN petbreed ON petbreed.id_breed = pet.id_breed  
             WHERE pet.id_user = ? `; 
 
           const results = await this.petRepository.query(query, [id_user]); 
