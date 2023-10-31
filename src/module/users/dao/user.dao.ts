@@ -33,8 +33,9 @@ export class UserDao {
       async finduserbyid(id_user: number): Promise<ResUserDto> {
         try {
           const query = `
-            SELECT * 
-            FROM user  
+            SELECT * FROM user
+            INNER JOIN district ON district.id_district = user.id_district
+            INNER JOIN subdistrict ON subdistrict.id_subdistrict = user.id_subdistrict  
             WHERE user.id_user = ? `; 
 
           const results = await this.userRepository.query(query, [id_user]); 
