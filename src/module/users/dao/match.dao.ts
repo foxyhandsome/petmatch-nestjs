@@ -12,13 +12,13 @@ export class MatchDao {
         private readonly petmatchinfoRepository: Repository<Petmatchinfo>,
     ) { }
 
-    async findpetwithoutuserhome(id_user: number): Promise<ResMatchDto> {
+    async findpetwithoutuserhome(reqmatchDto: ReqMatchDto): Promise<ResMatchDto> {
         try {
             const query = ` 
             SELECT * 
             FROM pet 
-            WHERE id_user!= ?;`;
-            const results = await this.petmatchinfoRepository.query(query,[]);
+            WHERE id_user != ? and username = ? ;`;
+            const results = await this.petmatchinfoRepository.query(query, [reqmatchDto.id_user, reqmatchDto.username]);
             if (!results || results.length === 0) {
                 throw new NotFoundException('ไม่เจอข้อมูล');
             }

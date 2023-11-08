@@ -12,14 +12,14 @@ export class PetController {
   // }
 
   @Get("/get-pet-withinfo") //เส้น api
-  async findPetwithallinfo() { 
-  try {
-    const result = await this.petService.findPetwithallinfo(); 
-    return { message: result };
-  } catch (error) {
-    throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+  async findPetwithallinfo() {
+    try {
+      const result = await this.petService.findPetwithallinfo();
+      return { message: result };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
-}
 
   @Get('/get-pet/:id_pet')
   async findPetById(@Param('id_pet') id_pet: number) {
@@ -39,11 +39,6 @@ export class PetController {
     return pet;
   }
 
-
-
-
-
-
   @Post('/create-pet')
   async createPet(@Body() createPetDto: CreatePetDto) {
     try {
@@ -58,9 +53,9 @@ export class PetController {
   }
 
   @Post('/edit-pet/:id')
-  async editPet(@Param('id') id_pet:number ,@Body() createPetDto: CreatePetDto) {
+  async editPet(@Param('id') id_pet: number, @Body() createPetDto: CreatePetDto) {
     try {
-      const updatedPet = await this.petService.editPet(id_pet , createPetDto);
+      const updatedPet = await this.petService.editPet(id_pet, createPetDto);
       return updatedPet;
     } catch (error) {
       console.log(error);
@@ -73,7 +68,7 @@ export class PetController {
   }
 
   @Delete('/delete-Pet/:id')
-  async deletePet (@Param('id') petId: string) {
+  async deletePet(@Param('id') petId: string) {
     try {
       const id = parseInt(petId, 10);
       const result = await this.petService.deletePet(id);
