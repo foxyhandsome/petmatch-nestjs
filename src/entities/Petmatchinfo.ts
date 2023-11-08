@@ -7,15 +7,24 @@ export class Petmatchinfo {
   id_match: number;
 
   @Column()
-  id_user: number;
+  id_userhome: number;
 
   @Column()
-  id_pet: number;
+  id_pethome: number;
 
   @Column()
-  match_user: boolean;
+  id_userguest: number;
 
   @Column()
-  match_owner: boolean;
+  id_petguest: number;
+
+  @Column()
+  match_userguest: boolean;
+
+  @Column()
+  match_userhome: boolean;
+
+  @Column()
+  match_dislike: boolean;
 
 }

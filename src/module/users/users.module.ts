@@ -32,10 +32,12 @@ import { PetSkinService } from './services/petskin.service';
 import { PetSkinController } from './controllers/petskin.controller';
 import { PetBloodService } from './services/petblood.service';
 import { PetBloodController } from './controllers/petblood.controller';
+import { MatchController } from './controllers/match.controller';
+import { MatchService } from './services/match.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, UserType , Bloodtype , District , Pet , PetBreed , Petmatchinfo , Review , Skintype , Subdistrict])],
-  controllers: [UsersController , ReviewController , PetController , LoginController , DistrictController , SubdistrictController , PetBreedController , PetSkinController , PetBloodController],
-  providers: [UsersService, UserDao , ReviewService , ReviewDao , PetService , PetDao , LoginService , DistrictService , SubDistrictService , SubdistrictDao , PetBreedService , PetSkinService , PetBloodService],
+  controllers: [UsersController , ReviewController , PetController , LoginController , DistrictController , SubdistrictController , PetBreedController , PetSkinController , PetBloodController , MatchController],
+  providers: [UsersService, UserDao , ReviewService , ReviewDao , PetService , PetDao , LoginService , DistrictService , SubDistrictService , SubdistrictDao , PetBreedService , PetSkinService , PetBloodService , MatchService],
 })
 export class UsersModule { }
