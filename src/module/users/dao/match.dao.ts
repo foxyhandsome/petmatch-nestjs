@@ -13,7 +13,7 @@ export class MatchDao {
         private readonly petRepository: Repository<Pet>,
     ) { }
 
-    async findpetformatch(reqmatchDto: ReqMatchDto): Promise<ResPetDto> {
+    async findpetformatch(reqmatchDto: ReqMatchDto): Promise<ResPetMatchDto> {
         try {
             const query = ` 
             SELECT *
