@@ -34,10 +34,11 @@ import { PetBloodService } from './services/petblood.service';
 import { PetBloodController } from './controllers/petblood.controller';
 import { MatchController } from './controllers/match.controller';
 import { MatchService } from './services/match.service';
+import { MatchDao } from './dao/match.dao';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, UserType , Bloodtype , District , Pet , PetBreed , Petmatchinfo , Review , Skintype , Subdistrict])],
   controllers: [UsersController , ReviewController , PetController , LoginController , DistrictController , SubdistrictController , PetBreedController , PetSkinController , PetBloodController , MatchController],
-  providers: [UsersService, UserDao , ReviewService , ReviewDao , PetService , PetDao , LoginService , DistrictService , SubDistrictService , SubdistrictDao , PetBreedService , PetSkinService , PetBloodService , MatchService],
+  providers: [UsersService, UserDao , ReviewService , ReviewDao , PetService , PetDao , LoginService , DistrictService , SubDistrictService , SubdistrictDao , PetBreedService , PetSkinService , PetBloodService , MatchService , MatchDao],
 })
 export class UsersModule { }

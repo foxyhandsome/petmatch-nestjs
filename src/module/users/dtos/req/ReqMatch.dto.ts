@@ -1,4 +1,4 @@
 interface ReqMatchDto {
   id_user: number;
-  username: string;
+  id_userhome : number;
 }
