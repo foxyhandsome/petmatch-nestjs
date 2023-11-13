@@ -18,4 +18,17 @@ export class MatchController {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @Post('/create-pet-match-info')
+  async createPetMatchInfo(@Body() petmatchInfoDetail: ReqPetMatchInfoDto) {
+    try {
+      const newPet = await this.matchService.createpetMatchInfo(petmatchInfoDetail);
+      return newPet;
+    } catch (error) {
+      throw new HttpException(
+        'เกิดข้อผิดพลาดในการสร้างสัตว์เลี้ยง.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }

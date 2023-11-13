@@ -1,4 +1,3 @@
-
 interface CreateUserDto {
   id_user: number;
   username: string;
