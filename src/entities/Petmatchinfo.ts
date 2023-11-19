@@ -22,6 +22,9 @@ export class Petmatchinfo {
   match_userguest: boolean;
 
   @Column()
+  match_userguest_deny: boolean;
+
+  @Column()
   match_userhome: boolean;
 
   @Column()

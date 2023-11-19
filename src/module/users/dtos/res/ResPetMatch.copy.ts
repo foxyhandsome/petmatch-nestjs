@@ -15,6 +15,7 @@ interface ResPetMatchDto {
   id_userguest : number;
   id_petguest : number;
   match_userguest : boolean;
+  match_userguest_deny : boolean;
   match_userhome : boolean;
   match_dislike : boolean;
   type_skin : string;

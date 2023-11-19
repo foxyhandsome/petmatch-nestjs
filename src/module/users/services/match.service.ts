@@ -18,6 +18,14 @@ export class MatchService {
     return this.matchDao.findpetformatch(reqmatchDto)  //เส้นดึงสัตว์เลี้ยงมาจับคู่ //ไม่ได้เชื่อมกับ service เชื่อมกับ dao เลย
   }
 
+  async getPetlike(reqmatchDto: ReqMatchDto) {
+    return this.matchDao.findpetlike(reqmatchDto)  //เส้นดึงสัตว์เลี้ยงมาจับคู่ //ไม่ได้เชื่อมกับ service เชื่อมกับ dao เลย
+  }
+
+  async PetmatchTicket(reqmatchDto: ReqMatchDto) {
+    return this.matchDao.petmatchticket(reqmatchDto)  //เส้นดึงสัตว์เลี้ยงมาจับคู่ //ไม่ได้เชื่อมกับ service เชื่อมกับ dao เลย
+  }
+
   async createpetMatchInfo(petmatchInfoDetail: ReqPetMatchInfoDto) { //เส้นสร้างประวัติการจับคู่ หรือ จับคู่ //เส้นนี้พัง
     try {
       const newPetMatchInfo = this.petmatchinfoRepository.create({

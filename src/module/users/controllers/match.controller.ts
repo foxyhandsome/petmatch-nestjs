@@ -19,6 +19,28 @@ export class MatchController {
     }
   }
 
+  @Post('/get-pet-like')
+  async getPetLike(@Body() reqmatchDto: ReqMatchDto) {
+    try {
+      // const result = await this.matchService.getPetwithoutUserHome(reqmatchDto);
+      // return result
+      return this.matchDao.findpetlike(reqmatchDto)
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Post('/pet-ticket')
+  async petMatchTicket(@Body() reqmatchDto: ReqMatchDto) {
+    try {
+      // const result = await this.matchService.getPetwithoutUserHome(reqmatchDto);
+      // return result
+      return this.matchDao.petmatchticket(reqmatchDto)
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
   @Post('/create-pet-match-info')
   async createPetMatchInfo(@Body() petmatchInfoDetail: ReqPetMatchInfoDto) {
     try {
