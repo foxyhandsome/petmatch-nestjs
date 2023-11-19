@@ -41,6 +41,21 @@ export class MatchController {
     }
   }
 
+  @Post('/reply-pet-match-info') //เส้น api
+  async replyPetMatchInfo(@Body() reqpetmatchinfodto: ReqPetMatchInfoDto) { //editUser คือฟังชั่น  โดยสร้างพารามิเตอร์ createUserDto ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto
+    try { 
+      const updatedPetmatch = await this.matchService.replyPetmatchinfo(reqpetmatchinfodto); //updatedUser คือเเปร เเละมีการเรียกใช้ฟั่งชั่น editUser <-- ถูกส่งข้อมูลผู้ใช้ผ่าน createUserDto
+      return updatedPetmatch;
+    } catch (error) {
+      console.log(error);
+
+      throw new HttpException(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   @Post('/create-pet-match-info')
   async createPetMatchInfo(@Body() petmatchInfoDetail: ReqPetMatchInfoDto) {
     try {

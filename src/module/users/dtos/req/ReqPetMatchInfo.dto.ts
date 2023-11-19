@@ -1,4 +1,5 @@
 interface ReqPetMatchInfoDto {
+  id_match : number;
   id_userhome : number;
   id_pethome : number;
   id_userguest : number;
