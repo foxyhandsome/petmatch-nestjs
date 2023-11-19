@@ -4,9 +4,9 @@ import { MatchDao } from '../dao/match.dao';
 
 @Controller('match')
 export class MatchController {
-  constructor(private matchService: MatchService,private readonly matchDao: MatchDao) {
-    
-   }
+  constructor(private matchService: MatchService, private readonly matchDao: MatchDao) {
+
+  }
 
   @Post('/get-pet-for-match')
   async getPetWithoutUserHome(@Body() reqmatchDto: ReqMatchDto) {
@@ -43,8 +43,8 @@ export class MatchController {
 
   @Post('/reply-pet-match-info') //เส้น api
   async replyPetMatchInfo(@Body() reqpetmatchinfodto: ReqPetMatchInfoDto) { //editUser คือฟังชั่น  โดยสร้างพารามิเตอร์ createUserDto ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto
-    try { 
-      const updatedPetmatch = await this.matchService.replyPetmatchinfo(reqpetmatchinfodto); //updatedUser คือเเปร เเละมีการเรียกใช้ฟั่งชั่น editUser <-- ถูกส่งข้อมูลผู้ใช้ผ่าน createUserDto
+    try {
+      const updatedPetmatch = await this.matchDao.updateMatch(reqpetmatchinfodto); //updatedUser คือเเปร เเละมีการเรียกใช้ฟั่งชั่น editUser <-- ถูกส่งข้อมูลผู้ใช้ผ่าน createUserDto
       return updatedPetmatch;
     } catch (error) {
       console.log(error);

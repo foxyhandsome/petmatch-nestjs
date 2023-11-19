@@ -44,18 +44,18 @@ export class MatchDao {
             AND p.id_pet NOT IN (SELECT id_pethome FROM petmatchinfo WHERE id_userguest = ?)
             AND p.id_pet NOT IN (SELECT id_petguest FROM petmatchinfo WHERE id_userhome = ?)
             ORDER BY p.id_pet ASC;`;
-            const results: ResPetMatchDto[] = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome , reqmatchDto.id_userguest , reqmatchDto.id_userhome , reqmatchDto.id_userguest]);
+            const results: ResPetMatchDto[] = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest]);
 
             if (!results || results.length === 0) {
                 throw new NotFoundException('ไม่เจอข้อมูล');
             }
-    
+
             return results;
         } catch (error) {
             throw new Error('${error.message}');
         }
     }
-    
+
     async findpetlike(reqmatchDto: ReqMatchDto): Promise<ResPetMatchDto[]> { //ประวัติการจับคู่
         try {
             const query = ` 
@@ -75,7 +75,7 @@ export class MatchDao {
             CASE 
 				WHEN pmi.match_userhome IS NOT NULL AND pmi.match_userhome = 1 THEN true
 				ELSE false
-			END AS match_userguest,
+			END AS match_userhome,
             CASE 
 				WHEN pmi.match_dislike IS NOT NULL AND pmi.match_dislike = 1 THEN true
 				ELSE false
@@ -103,7 +103,7 @@ export class MatchDao {
             if (!results || results.length === 0) {
                 throw new NotFoundException('ไม่เจอข้อมูล');
             }
-    
+
             return results;
         } catch (error) {
             throw new Error('${error.message}');
@@ -129,7 +129,7 @@ export class MatchDao {
             CASE 
 				WHEN pmi.match_userhome IS NOT NULL AND pmi.match_userhome = 1 THEN true
 				ELSE false
-			END AS match_userguest,
+			END AS match_userhome,
             CASE 
 				WHEN pmi.match_dislike IS NOT NULL AND pmi.match_dislike = 1 THEN true
 				ELSE false
@@ -157,7 +157,25 @@ export class MatchDao {
             if (!results || results.length === 0) {
                 throw new NotFoundException('ไม่เจอข้อมูล');
             }
-    
+
+            return results;
+        } catch (error) {
+            throw new Error('${error.message}');
+        }
+    }
+
+    async updateMatch(reqmatchDto: ReqPetMatchInfoDto) { //ส่งข้อเสนอการจับคู่
+        try {
+            const query = ` 
+            UPDATE petmatchinfo pmi
+            SET pmi.match_userguest = ?, pmi.match_userguest_deny = ?
+            WHERE pmi.id_match = ?`;
+            const results: ResPetMatchDto[] = await this.petRepository.query(query, [reqmatchDto.match_userguest, reqmatchDto.match_userguest_deny, reqmatchDto.id_match]);
+
+            if (!results || results.length === 0) {
+                throw new NotFoundException('ไม่เจอข้อมูล');
+            }
+
             return results;
         } catch (error) {
             throw new Error('${error.message}');

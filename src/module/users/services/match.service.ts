@@ -26,22 +26,29 @@ export class MatchService {
     return this.matchDao.petmatchticket(reqmatchDto)  //เส้นดึงสัตว์เลี้ยงมาจับคู่ //ไม่ได้เชื่อมกับ service เชื่อมกับ dao เลย
   }
 
-  async replyPetmatchinfo(petmatchDetails: ReqPetMatchInfoDto) { //เส้นกดยอมรับข้อเสนอหรือปฏิเสธ
+
+  async replyPetmatchinfo(petmatchDetails: ReqPetMatchInfoDto) {//เส้นกดยอมรับข้อเสนอหรือปฏิเสธ
     try {
-      const replypetmatchinfo = await this.petmatchinfoRepository.findOneById(petmatchDetails.id_match); 
-      console.log(replypetmatchinfo);
+      const replypetmatchinfo = await this.petmatchinfoRepository.findOneById(petmatchDetails.id_match);
 
-      if (!replypetmatchinfo) { 
-        throw new Error('หาไม่เจอ');
+      if (!replypetmatchinfo) {
+        throw new NotFoundException('ไม่พบข้อมูล'); // ใช้ NotFoundException แทนการ throw Error
       }
-      replypetmatchinfo.match_userguest = petmatchDetails.match_userguest;
-      replypetmatchinfo.match_userguest_deny = petmatchDetails.match_userguest_deny;
+      console.log(petmatchDetails)
+      console.log(replypetmatchinfo)
+      replypetmatchinfo.match_userguest = true;
+      replypetmatchinfo.match_userguest_deny = true;
+      console.log(replypetmatchinfo);
+      const newPetMatchInfo = this.petmatchinfoRepository.create({
+        ...replypetmatchinfo,
+      });
 
-      return await this.petmatchinfoRepository.save(replypetmatchinfo); 
+      return await this.petmatchinfoRepository.save(newPetMatchInfo);
     } catch (error) {
       throw new Error(error);
     }
   }
+
 
   async createpetMatchInfo(petmatchInfoDetail: ReqPetMatchInfoDto) { //เส้นสร้างประวัติการจับคู่ หรือ จับคู่ //เส้นนี้พัง
     try {
