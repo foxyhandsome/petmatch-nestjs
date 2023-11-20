@@ -13,6 +13,9 @@ export class Review {
   star: number;
 
   @Column()
+  id_pet_owner: number;  
+
+  @Column()
   id_user: number;
 
   @Column()

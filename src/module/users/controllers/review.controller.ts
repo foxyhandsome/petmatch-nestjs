@@ -15,7 +15,7 @@ export class ReviewController {
   async getreview() { //getreview คือฟังชั่น
   try {
     const result = await this.reviewService.findReview(); //เรียกใช้ฟังชั่น findReview เเละส่งให้กับ result
-    return { message: result };
+    return result ;
   } catch (error) {
     throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
   }

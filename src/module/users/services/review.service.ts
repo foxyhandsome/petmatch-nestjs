@@ -44,15 +44,15 @@ export class ReviewService {
 
   async editReview(reviewDetails: CreateReviewDto) { //ไว้เเก้ไขข้อมูลผู้ใช้ //editReview คือฟังชั่น โดยสร้างพารามิเตอร์ reviewDetails ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateReviewDto
     try {
-      const existingReview = await this.reviewRepository.findOneById(reviewDetails.id_review); //ไว้เก็บข้อมูลไอดีรีวิวไว้ในตัวเเปร existingUser
-      console.log(existingReview);
+      const edtReview = await this.reviewRepository.findOneById(reviewDetails.id_review); //ไว้เก็บข้อมูลไอดีรีวิวไว้ในตัวเเปร existingUser
+      console.log(edtReview);
 
-      if (!existingReview) {
+      if (!edtReview) {
         throw new Error('หารีวิวไม่เจอ');
       }
-      existingReview.review_info = reviewDetails.review_info;
-      existingReview.star = reviewDetails.star;
-      return await this.reviewRepository.save(existingReview); // อัปเดตข้อมูลผู้ใช้จาก reviewDetails ที่รับข้อมูลมาจากโครงสร้างข้อมูล CreateReviewDto ที่รับเข้ามาเมื่อเจอผู้ใช้ต้องการเเก้ไข
+      edtReview.review_info = reviewDetails.review_info;
+      edtReview.star = reviewDetails.star;
+      return await this.reviewRepository.save(edtReview); // อัปเดตข้อมูลผู้ใช้จาก reviewDetails ที่รับข้อมูลมาจากโครงสร้างข้อมูล CreateReviewDto ที่รับเข้ามาเมื่อเจอผู้ใช้ต้องการเเก้ไข
     } catch (error) {
       throw new Error(error);
     }
