@@ -81,7 +81,6 @@ export class MatchDao {
 				ELSE false
 			END AS match_dislike,
             pguest.*,
-            phome.*,
             skt.*,
             blt.*,
             pb.*,
