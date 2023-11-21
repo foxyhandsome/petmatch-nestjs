@@ -5,7 +5,7 @@ import { PetSkinService } from '../services/petskin.service';
 export class PetSkinController {
   constructor(private petskinService: PetSkinService) { } //ตัวเเปร userService เเละรับค่าจาก UsersService
 
-  @Get("/get-petskin") 
+  @Get("/get-petskin") //เส้นดึงสีขนสัตว์เลี้ยง
   Getpetskin() { 
       return this.petskinService.getPetSkin()
   }

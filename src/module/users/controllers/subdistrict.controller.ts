@@ -5,7 +5,7 @@ import { SubDistrictService } from '../services/subdistrict.service';
 export class SubdistrictController {
   constructor(private subdistrictService: SubDistrictService) { } //ตัวเเปร userService เเละรับค่าจาก UsersService
   
-  @Get('/get-subdistrictbydistrictid/:id_district') 
+  @Get('/get-subdistrictbydistrictid/:id_district')  //เส้นดึงเเขวงโดยใช้ไอดีจากเขต
     async findsubdistrictbyDistrictid(@Param('id_district') id_district: number) {
       const subdistrict = await this.subdistrictService.findSubDistrictbydistrictid(id_district);
       if (!subdistrict) {

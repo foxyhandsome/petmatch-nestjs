@@ -56,7 +56,7 @@ export class MatchController {
     }
   }
 
-  @Post('/create-pet-match-info') //เส้นสร้างกับจับคู่หลังจากกดถูกใจหรือไม่ถูกใจ 
+  @Post('/create-pet-match-info') //เส้นสร้างการจับคู่หลังจากกดถูกใจหรือไม่ถูกใจ 
   async createPetMatchInfo(@Body() petmatchInfoDetail: ReqPetMatchInfoDto) {
     try {
       const newPet = await this.matchService.createpetMatchInfo(petmatchInfoDetail);

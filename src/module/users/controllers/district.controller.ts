@@ -5,7 +5,7 @@ import { DistrictService } from '../services/district.service';
 export class DistrictController {
   constructor(private districtService: DistrictService) { } //ตัวเเปร userService เเละรับค่าจาก UsersService
 
-  @Get("/get-district") 
+  @Get("/get-district") //เส้นดึงเขต
   Getdistrict() { 
       return this.districtService.getDistrict()
   }

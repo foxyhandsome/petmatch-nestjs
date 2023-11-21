@@ -11,7 +11,7 @@ export class PetController {
   //   return this.petService.findPet();
   // }
 
-  @Get("/get-pet-withinfo") //เส้น api
+  @Get("/get-pet-withinfo") //เส้นดูสัตว์เลี้ยง
   async findPetwithallinfo() {
     try {
       const result = await this.petService.findPetwithallinfo();
@@ -21,7 +21,7 @@ export class PetController {
     }
   }
 
-  @Get('/get-pet/:id_pet')
+  @Get('/get-pet/:id_pet') //เส้นดึงสัตว์เลี้ยงโดยใช้ไอดีวัตว์เลี้ยง
   async findPetById(@Param('id_pet') id_pet: number) {
     const pet = await this.petService.findpetbyid(id_pet);
     if (!pet) {
@@ -30,7 +30,7 @@ export class PetController {
     return pet;
   }
 
-  @Get('/get-pet-by-userid/:id_user')
+  @Get('/get-pet-by-userid/:id_user') //เส้นดึงสัตว์เลี้ยงโดยใช้ไอดีผู้ใช้
   async findPetByUserId(@Param('id_user') id_user: number) {
     const pet = await this.petService.findpetbyuserid(id_user);
     if (!pet) {
@@ -39,7 +39,7 @@ export class PetController {
     return pet;
   }
 
-  @Post('/create-pet')
+  @Post('/create-pet') //เส้นสร้างสัตว์เลี้ยง
   async createPet(@Body() createPetDto: CreatePetDto) {
     try {
       const newPet = await this.petService.createPet(createPetDto);
@@ -52,7 +52,7 @@ export class PetController {
     }
   }
 
-  @Post('/edit-pet/:id')
+  @Post('/edit-pet/:id') //เส้นเเก้ไขสัตว์เลี้ยงโดยใช้ไอดีสัตว์เลี้ยง
   async editPet(@Param('id') id_pet: number, @Body() createPetDto: CreatePetDto) {
     try {
       const updatedPet = await this.petService.editPet(id_pet, createPetDto);
@@ -67,7 +67,7 @@ export class PetController {
     }
   }
 
-  @Delete('/delete-Pet/:id')
+  @Delete('/delete-Pet/:id') //เส้นลบสัตว์เลี้ยงโดยใช้ไอดีสัตว์เลี้ยง
   async deletePet(@Param('id') petId: string) {
     try {
       const id = parseInt(petId, 10);

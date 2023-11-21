@@ -31,8 +31,13 @@ export class ReviewService {
     }
   }
 
-  async findReviewbyUserHomeId(id_user_home: number) {
-    const resReview = await this.reviewDao.findReviewbyuserhomeid(id_user_home);
+  async findReviewbypethomeId(id_pet_home: number) {
+    const resReview = await this.reviewDao.findReviewbypethometid(id_pet_home);
+    return resReview;
+  }
+
+  async findReviewbyId(id_review: number) {
+    const resReview = await this.reviewDao.findReviewbyid(id_review);
     return resReview;
   }
 
@@ -47,9 +52,9 @@ export class ReviewService {
     }
   }
 
-  async editReview(reviewDetails: CreateReviewDto) { //ไว้เเก้ไขข้อมูลผู้ใช้ //editReview คือฟังชั่น โดยสร้างพารามิเตอร์ reviewDetails ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateReviewDto
+  async editReview(id_review: number,reviewDetails: CreateReviewDto) { //ไว้เเก้ไขข้อมูลผู้ใช้ //editReview คือฟังชั่น โดยสร้างพารามิเตอร์ reviewDetails ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateReviewDto
     try {
-      const edtReview = await this.reviewRepository.findOneById(reviewDetails.id_review); //ไว้เก็บข้อมูลไอดีรีวิวไว้ในตัวเเปร existingUser
+      const edtReview = await this.reviewRepository.findOneById(id_review); //ไว้เก็บข้อมูลไอดีรีวิวไว้ในตัวเเปร existingUser
       console.log(edtReview);
 
       if (!edtReview) {

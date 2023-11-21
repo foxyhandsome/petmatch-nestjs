@@ -11,12 +11,12 @@ export class UsersController {
   // }
 
 
-  @Get("/get-all-user")
+  @Get("/get-all-user") //เส้นดึงผู้ใช้ทั้งหมด
   getUsers() {
     return this.userService.findAllUsers();
   }
 
-  @Get("/get-user-withdistrict-subdistrict") //เส้น api
+  @Get("/get-user-withdistrict-subdistrict") //เส้นดึงผู้ใช้ที่มีข้อมูลทั้งเขตทั้งเเขวง
   async getdistrictsubdistrict() { //getdistrictsubdistrict คือฟังชั่น
   try {
     const result = await this.userService.findDistrictSubdistrict(); //เรียกใช้ฟังชั่น findDistrictSubdistrict เเละส่งให้กับ result
@@ -26,7 +26,7 @@ export class UsersController {
   }
 }
 
-  @Get('/get-user/:id_user') 
+  @Get('/get-user/:id_user') //เส้นดึงผู้ใช้โดยไอดีของผู้ใช้
     async findUserById(@Param('id_user') id_user: number) {
       const user = await this.userService.finduserbyid(id_user);
       if (!user) {
@@ -35,7 +35,7 @@ export class UsersController {
       return user;
     }
 
-  @Get("/get-user-by-user") //เส้น api
+  @Get("/get-user-by-user") //เส้นดึงผู้ใช้ที่มีสิทธิ์เเค่ผู้ใช้ทั่วไป
     async findUserbyuser() { 
     try {
       const result = await this.userService.finduserbyuser(); //เรียกใช้ฟังชั่น findDistrictSubdistrict เเละส่งให้กับ result
@@ -46,7 +46,7 @@ export class UsersController {
   }
 
 
-  @Post('/create-user') //เส้น api
+  @Post('/create-user') //เส้นสร้างผู้ใช้
   async createUser(@Body() createUserDto: CreateUserDto) { //createUser คือฟังชั่น  โดยสร้างพารามิเตอร์ createUserDto ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto
     try {
       const newUser = await this.userService.createUser(createUserDto); //newUserคือเเปร เเละมีการเรียกใช้ฟั่งชั่น createUser <-- ถูกส่งข้อมูลผู้ใช้ผ่าน createUserDto 
@@ -59,7 +59,7 @@ export class UsersController {
     }
   }
 
-  @Post('/edit-user/:id') //เส้น api
+  @Post('/edit-user/:id') //เส้นเเก้ไขผู้ใช้โดยใช้ไอดีผู้ใช้
   async editUser(@Param('id') id_user:number ,@Body() createUserDto: CreateUserDto) { //editUser คือฟังชั่น  โดยสร้างพารามิเตอร์ createUserDto ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto
     try { 
       const updatedUser = await this.userService.editUser(id_user,createUserDto); //updatedUser คือเเปร เเละมีการเรียกใช้ฟั่งชั่น editUser <-- ถูกส่งข้อมูลผู้ใช้ผ่าน createUserDto
@@ -74,7 +74,7 @@ export class UsersController {
     }
   }
 
-  @Delete('/delete-user/:id') //เส้น api
+  @Delete('/delete-user/:id') //เส้นลบผู้ใช้โดยใช้ไอดีผู้ใช้
   async deleteUser(@Param('id') userId: string) { //deleteUser คือฟังชั่น
     try {
       const id = parseInt(userId, 10);
