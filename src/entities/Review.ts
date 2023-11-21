@@ -13,13 +13,16 @@ export class Review {
   star: number;
 
   @Column()
-  id_pet_owner: number;  
+  id_user_home: number;  
 
   @Column()
-  id_user: number;
+  id_pet_home: number;  
 
   @Column()
-  id_pet: number;
+  id_user_review: number;
+
+  @Column()
+  id_pet_review: number;
 
   @Column()
   admin_modify: string;

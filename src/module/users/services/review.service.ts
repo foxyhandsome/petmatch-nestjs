@@ -17,18 +17,23 @@ export class ReviewService {
   //   return this.reviewRepository.find();
   // }
 
-  async findReview() { //ไว้หาข้อมูลรีวิว //findReview คือฟังชั่น 
+  async findAllReview() { //ไว้หาข้อมูลรีวิว //findReview คือฟังชั่น 
     try {
-      const userToFindDistrict = await this.reviewDao.findReviewWithUsername(); //หาข้อมูลรีวิวเเละเรียก querry จาก reviewDao มาใช้
+      const reviewtoFind = await this.reviewDao.findallReview(); //หาข้อมูลรีวิวเเละเรียก querry จาก reviewDao มาใช้
   
-      if (!userToFindDistrict || userToFindDistrict.length === 0) { //หาไม่เจอเเละไม่มีค่า
+      if (!reviewtoFind || reviewtoFind.length === 0) { //หาไม่เจอเเละไม่มีค่า
         throw new NotFoundException('ไม่พบผู้ใช้');
       }
 
-      return userToFindDistrict;
+      return reviewtoFind;
     } catch (error) {
       throw new Error(`เกิดข้อผิดพลาดในการค้นหาข้อมูลผู้ใช้: ${error.message}`);
     }
+  }
+
+  async findReviewbyUserHomeId(id_user_home: number) {
+    const resReview = await this.reviewDao.findReviewbyuserhomeid(id_user_home);
+    return resReview;
   }
 
   async createReview(reviewDetails: CreateReviewDto) { //ไว้สร้างข้อมูลรีวิว //createReview คือฟังชั่น โดยสร้างพารามิเตอร์ reviewDetails ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลจาก CreateReviewDto

@@ -1,4 +1,4 @@
-import { Controller, Post, Delete, Body, Param, HttpException, HttpStatus, Get } from '@nestjs/common';
+import { Controller, Post, Delete, Body, Param, HttpException, HttpStatus, Get, NotFoundException } from '@nestjs/common';
 import { UsersService } from '../services/user.service';
 import { ReviewService } from '../services/review.service';
 
@@ -11,15 +11,24 @@ export class ReviewController {
   //   return this.reviewService.findReview();
   // }
 
-  @Get("/get-review") //เส้น api
+  @Get("/get-all-review") 
   async getreview() { //getreview คือฟังชั่น
-  try {
-    const result = await this.reviewService.findReview(); //เรียกใช้ฟังชั่น findReview เเละส่งให้กับ result
-    return result ;
-  } catch (error) {
-    throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    try {
+      const result = await this.reviewService.findAllReview(); //เรียกใช้ฟังชั่น findReview เเละส่งให้กับ result
+      return result;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
-}
+
+  @Get('/get-review/:id_user_home')
+  async findreviewbyUserHomeId(@Param('id_user_home') id_user_home: number) {
+    const result = await this.reviewService.findReviewbyUserHomeId(id_user_home);
+    if (!result) {
+      throw new NotFoundException('หาสัตว์เลี้ยงไม่เจอ');
+    }
+    return result;
+  }
 
 
   @Post('/create-review') //เส้น api

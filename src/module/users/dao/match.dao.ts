@@ -181,4 +181,58 @@ export class MatchDao {
             throw new Error('${error.message}');
         }
     }
+
+    async petmaybereview(reqmatchDto: ReqPetMatchInfoDto) { //ส่งข้อเสนอการจับคู่
+        try {
+            const query = ` 
+            SELECT  pmi.id_match,
+			        pmi.id_userhome,
+                    pmi.id_pethome,
+                    pmi.id_userguest,
+                    pmi.id_petguest,
+            CASE 
+				WHEN pmi.match_userguest IS NOT NULL AND pmi.match_userguest = 1 THEN true
+				ELSE false
+			END AS match_userguest,
+            CASE 
+				WHEN pmi.match_userguest_deny IS NOT NULL AND pmi.match_userguest_deny = 1 THEN true
+				ELSE false
+			END AS match_userguest_deny,
+            CASE 
+				WHEN pmi.match_userhome IS NOT NULL AND pmi.match_userhome = 1 THEN true
+				ELSE false
+			END AS match_userhome,
+            CASE 
+				WHEN pmi.match_dislike IS NOT NULL AND pmi.match_dislike = 1 THEN true
+				ELSE false
+			END AS match_dislike,
+            pguest.*,
+            phome.*,
+            skt.*,
+            blt.*,
+            pb.*,
+            ur.*,
+            dt.*,
+            sdt.*
+            FROM petmatchinfo pmi
+            INNER JOIN pet pguest ON pguest.id_pet = pmi.id_petguest
+            INNER JOIN pet phome ON phome.id_pet = pmi.id_pethome
+            INNER JOIN skintype skt ON skt.id_skin = pguest.id_skin
+            INNER JOIN bloodtype blt ON blt.id_blood = pguest.id_blood
+            INNER JOIN petbreed pb ON pb.id_breed = pguest.id_breed
+            INNER JOIN user ur ON ur.id_user = pmi.id_userguest
+            INNER JOIN district dt ON dt.id_district = ur.id_district
+            INNER JOIN subdistrict sdt ON sdt.id_subdistrict = ur.id_subdistrict
+            WHERE pmi.match_userhome = 1 AND pmi.match_userguest = 1 AND pmi.match_userguest_deny = 0 AND pmi.match_dislike = 0 AND pmi.id_userhome = ?;`;
+            const results: ResPetMatchDto[] = await this.petRepository.query(query, [reqmatchDto.id_userhome]);
+
+            if (!results || results.length === 0) {
+                throw new NotFoundException('ไม่เจอข้อมูล');
+            }
+
+            return results;
+        } catch (error) {
+            throw new Error('${error.message}');
+        }
+    }
 }

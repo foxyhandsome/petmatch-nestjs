@@ -26,6 +26,10 @@ export class MatchService {
     return this.matchDao.petmatchticket(reqmatchDto)  //เส้นดึงสัตว์เลี้ยงมาจับคู่ //ไม่ได้เชื่อมกับ service เชื่อมกับ dao เลย
   }
 
+  async PetMaybeReview(reqmatchDto: ReqMatchDto) {
+    return this.matchDao.petmatchticket(reqmatchDto)  //เส้นดึงสัตว์เลี้ยงมาจับคู่ //ไม่ได้เชื่อมกับ service เชื่อมกับ dao เลย
+  }
+
 
   async replyPetmatchinfo(petmatchDetails: ReqPetMatchInfoDto) {//เส้นกดยอมรับข้อเสนอหรือปฏิเสธ
     try {

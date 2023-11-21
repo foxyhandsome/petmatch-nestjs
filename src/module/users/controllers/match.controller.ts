@@ -8,7 +8,7 @@ export class MatchController {
 
   }
 
-  @Post('/get-pet-for-match')
+  @Post('/get-pet-for-match') //เส้นเอาสัตว์เลี้ยงทั้งหมดมาจับคู่
   async getPetWithoutUserHome(@Body() reqmatchDto: ReqMatchDto) {
     try {
       // const result = await this.matchService.getPetwithoutUserHome(reqmatchDto);
@@ -19,7 +19,7 @@ export class MatchController {
     }
   }
 
-  @Post('/get-pet-like')
+  @Post('/get-pet-like') //เส้นประวัติที่เรากดถูกใจหรือส่งข้อเสนอ
   async getPetLike(@Body() reqmatchDto: ReqMatchDto) {
     try {
       // const result = await this.matchService.getPetwithoutUserHome(reqmatchDto);
@@ -30,7 +30,7 @@ export class MatchController {
     }
   }
 
-  @Post('/pet-ticket')
+  @Post('/pet-ticket') //เส้นดูข้อเสนอ
   async petMatchTicket(@Body() reqmatchDto: ReqMatchDto) {
     try {
       // const result = await this.matchService.getPetwithoutUserHome(reqmatchDto);
@@ -41,10 +41,10 @@ export class MatchController {
     }
   }
 
-  @Post('/reply-pet-match-info') //เส้น api
-  async replyPetMatchInfo(@Body() reqpetmatchinfodto: ReqPetMatchInfoDto) { //editUser คือฟังชั่น  โดยสร้างพารามิเตอร์ createUserDto ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateUserDto
+  @Post('/reply-pet-match-info') //เส้นตอบกลับหรือกดยอมรับข้อเสนอ ยอมรับการจับคู่หรือไม่จับคู่
+  async replyPetMatchInfo(@Body() reqpetmatchinfodto: ReqPetMatchInfoDto) { 
     try {
-      const updatedPetmatch = await this.matchDao.updateMatch(reqpetmatchinfodto); //updatedUser คือเเปร เเละมีการเรียกใช้ฟั่งชั่น editUser <-- ถูกส่งข้อมูลผู้ใช้ผ่าน createUserDto
+      const updatedPetmatch = await this.matchDao.updateMatch(reqpetmatchinfodto); 
       return updatedPetmatch;
     } catch (error) {
       console.log(error);
@@ -56,7 +56,7 @@ export class MatchController {
     }
   }
 
-  @Post('/create-pet-match-info')
+  @Post('/create-pet-match-info') //เส้นสร้างกับจับคู่หลังจากกดถูกใจหรือไม่ถูกใจ 
   async createPetMatchInfo(@Body() petmatchInfoDetail: ReqPetMatchInfoDto) {
     try {
       const newPet = await this.matchService.createpetMatchInfo(petmatchInfoDetail);
@@ -68,4 +68,17 @@ export class MatchController {
       );
     }
   }
+
+  @Post('/pet-maybe-review') //เส้นดูรายการสัตว์เลี้ยงที่รีวิว (จะรีวิวก็ได้หรือไม่ก็ได้)
+  async petMaybeReview(@Body() reqpetmatchDto: ReqPetMatchInfoDto) {
+    try {
+      // const result = await this.matchService.getPetwithoutUserHome(reqmatchDto);
+      // return result
+      return this.matchDao.petmaybereview(reqpetmatchDto)
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+
 }
