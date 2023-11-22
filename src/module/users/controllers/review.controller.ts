@@ -69,10 +69,10 @@ export class ReviewController {
   }
 
   @Delete('/delete-review/:id') //เส้นลบรีวิว
-  async deleteUser(@Param('id') reviewId: string) { //deleteUser คือฟังชั่น :id ไว้กำหนดไอดีรีวิว
+  async deleteUser(@Param('id') reviewId: number) { //deleteUser คือฟังชั่น :id ไว้กำหนดไอดีรีวิว
     try {
-      const id = parseInt(reviewId, 10); //เเปลง reviewId จาก String ไปเป็น Int
-      const result = await this.reviewService.deleteReview(id); //result คือเเปร เเละมีการเรียกใช้ฟั่งชั่น deleteReview โดยส่งไอดีรีวิวเข้าไป
+      //const id = parseInt(reviewId, 10); //เเปลง reviewId จาก String ไปเป็น Int
+      const result = await this.reviewService.deleteReview(reviewId); //result คือเเปร เเละมีการเรียกใช้ฟั่งชั่น deleteReview โดยส่งไอดีรีวิวเข้าไป
       return { message: result };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);

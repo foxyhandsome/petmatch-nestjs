@@ -75,10 +75,10 @@ export class UsersController {
   }
 
   @Delete('/delete-user/:id') //เส้นลบผู้ใช้โดยใช้ไอดีผู้ใช้
-  async deleteUser(@Param('id') userId: string) { //deleteUser คือฟังชั่น
+  async deleteUser(@Param('id') userId: number) { //deleteUser คือฟังชั่น
     try {
-      const id = parseInt(userId, 10);
-      const result = await this.userService.deleteUser(id); //result คือเเปร เเละมีการเรียกใช้ฟั่งชั่น deleteUser โดยส่งไอดีผู้ใช้เข้าไป
+      // const id = parseInt(userId, 10);
+      const result = await this.userService.deleteUser(userId); //result คือเเปร เเละมีการเรียกใช้ฟั่งชั่น deleteUser โดยส่งไอดีผู้ใช้เข้าไป
       return { message: result };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);

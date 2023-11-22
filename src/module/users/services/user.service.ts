@@ -30,7 +30,7 @@ export class UsersService {
     }
   }
 
-  async finduserbyid(id_user: number): Promise<User | null> {
+  async finduserbyid(id_user: number) {
     const resUser: ResUserDto = await this.userDao.finduserbyid(id_user);
     return resUser;
   }

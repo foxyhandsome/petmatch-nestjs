@@ -68,10 +68,10 @@ export class PetController {
   }
 
   @Delete('/delete-Pet/:id') //เส้นลบสัตว์เลี้ยงโดยใช้ไอดีสัตว์เลี้ยง
-  async deletePet(@Param('id') petId: string) {
+  async deletePet(@Param('id') petId: number) {
     try {
-      const id = parseInt(petId, 10);
-      const result = await this.petService.deletePet(id);
+      // const id = parseInt(petId, 10);
+      const result = await this.petService.deletePet(petId);
       return { message: result };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);

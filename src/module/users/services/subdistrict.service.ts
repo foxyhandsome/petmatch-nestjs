@@ -14,7 +14,7 @@ export class SubDistrictService {
   ) {
   }
 
-  async findSubDistrictbydistrictid(id_district: number): Promise<Subdistrict | null> {
+  async findSubDistrictbydistrictid(id_district: number) {
     const resSubdistrict: ResSubDistrictDto = await this.subdistrictDao.findsubdistrictbydistrictid(id_district);
     return resSubdistrict;
   }

@@ -28,13 +28,13 @@ export class PetService {
     }
   }
 
-  async findpetbyid(id_pet: number): Promise<Pet | null> {
+  async findpetbyid(id_pet: number) {
     const resPet: ResPetDto = await this.petDao.findpetbyid(id_pet);
     return resPet;
   }
 
   
-  async findpetbyuserid(id_user: number): Promise<Pet | null> {
+  async findpetbyuserid(id_user: number) {
     const resPet: ResPetDto = await this.petDao.findpetbyuserid(id_user);
     return resPet;
   }
