@@ -22,11 +22,15 @@ export class MatchDao {
             pmi1.id_pethome,
             pmi1.id_userguest,
             pmi1.id_petguest,
+            pmi1.create_date,
+            pmi1.update_date,
             pmi2.id_match,
             pmi2.id_userhome,
             pmi2.id_pethome,
             pmi2.id_userguest,
             pmi2.id_petguest,
+            pmi2.create_date,
+            pmi2.update_date,
             skt.*,
             blt.*,
             ur.*,
@@ -47,89 +51,142 @@ export class MatchDao {
 
             var results: ResPetMatchDto[];
             //เงื่อนไขเลือกหนึงอย่าง
-            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed == null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood == null){
+            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed == null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood == null && reqmatchDto.id_district == null){
                 query = query.concat("AND p.age_pet <= ?");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
                     ,reqmatchDto.age_pet]);
             }
-            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed != null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood == null){
+            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed != null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood == null && reqmatchDto.id_district == null){
                 query = query.concat("AND p.id_breed = ?");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
                     ,reqmatchDto.id_breed]);
             }
-            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed == null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood == null){
+            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed == null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood == null && reqmatchDto.id_district == null){
                 query = query.concat("AND p.id_skin = ?");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
                     ,reqmatchDto.id_skin]);
             }
-            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed == null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood != null){
+            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed == null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood != null && reqmatchDto.id_district == null){
                 query = query.concat("AND p.id_blood = ?");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
                     ,reqmatchDto.id_blood]);
             }
+            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed == null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood == null && reqmatchDto.id_district != null){
+                query = query.concat("AND ur.id_district = ?");
+                results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
+                    ,reqmatchDto.id_district]);
+            }
 
             //เงื่อนไขเลือกสองอย่าง
-            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed != null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood == null){
-                query = query.concat("AND p.age_pet <= ? AND p.id_breed = ? ");
+            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed != null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood == null && reqmatchDto.id_district == null){
+                query = query.concat("AND p.age_pet <= ? AND p.id_breed = ?");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
                     ,reqmatchDto.age_pet , reqmatchDto.id_breed]);
             }
-            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed == null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood == null){
-                query = query.concat("AND p.age_pet <= ? AND p.id_skin = ? ");
+            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed == null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood == null && reqmatchDto.id_district == null){
+                query = query.concat("AND p.age_pet <= ? AND p.id_skin = ?");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
                     ,reqmatchDto.age_pet ,reqmatchDto.id_skin ]);
             }
-            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed == null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood != null){
-                query = query.concat("AND p.age_pet <= ? AND p.id_blood = ? ");
+            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed == null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood != null && reqmatchDto.id_district == null){
+                query = query.concat("AND p.age_pet <= ? AND p.id_blood = ?");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
                     ,reqmatchDto.age_pet ,reqmatchDto.id_blood]);
             }
+            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed == null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood == null && reqmatchDto.id_district != null){
+                query = query.concat("AND p.age_pet <= ? AND ur.id_district = ?");
+                results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
+                    ,reqmatchDto.age_pet ,reqmatchDto.id_district]);
+            }
 
 
-            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed != null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood == null){
-                query = query.concat("AND p.id_breed = ? AND p.id_skin = ? ");
+            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed != null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood == null && reqmatchDto.id_district == null){
+                query = query.concat("AND p.id_breed = ? AND p.id_skin = ?");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
                     ,reqmatchDto.id_breed ,reqmatchDto.id_skin]);
             }
-            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed != null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood != null){
-                query = query.concat("AND p.id_breed = ? AND p.id_blood = ? ");
+            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed != null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood != null && reqmatchDto.id_district == null){
+                query = query.concat("AND p.id_breed = ? AND p.id_blood = ?");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
                     ,reqmatchDto.id_breed ,reqmatchDto.id_blood]);
             }
+            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed != null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood == null && reqmatchDto.id_district != null){
+                query = query.concat("AND p.id_breed = ? AND ur.id_district = ?");
+                results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
+                    ,reqmatchDto.id_breed ,reqmatchDto.id_district]);
+            }
 
 
-            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed == null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood != null){
-                query = query.concat("AND p.id_skin = ? AND p.id_blood = ? ");
+            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed == null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood != null && reqmatchDto.id_district == null){
+                query = query.concat("AND p.id_skin = ? AND p.id_blood = ?");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
                     ,reqmatchDto.id_skin ,reqmatchDto.id_blood]);
             }
+            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed == null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood == null && reqmatchDto.id_district != null){
+                query = query.concat("AND p.id_skin = ? AND ur.id_district = ?");
+                results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
+                    ,reqmatchDto.id_skin ,reqmatchDto.id_district]);
+            }
 
             //เงื่อนไขเลือกสามอย่าง
-            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed != null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood == null){
+            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed != null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood == null && reqmatchDto.id_district == null){
                 query = query.concat("AND p.age_pet <= ? AND p.id_breed = ? AND p.id_skin = ?");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
                     ,reqmatchDto.age_pet , reqmatchDto.id_breed ,reqmatchDto.id_skin]);
             }
-            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed != null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood != null){
+            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed != null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood != null && reqmatchDto.id_district == null){
                 query = query.concat("AND p.age_pet <= ? AND p.id_breed = ? AND p.id_blood = ?");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
                     ,reqmatchDto.age_pet , reqmatchDto.id_breed ,reqmatchDto.id_blood]);
             }
-            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed != null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood != null){
-                query = query.concat("AND p.id_breed = ? AND p.id_skin = ? AND p.id_blood = ?");
+            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed != null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood == null && reqmatchDto.id_district != null){
+                query = query.concat("AND p.age_pet <= ? AND p.id_breed = ? AND ur.id_district = ?");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
-                    ,reqmatchDto.id_breed ,reqmatchDto.id_skin ,reqmatchDto.id_blood]);
+                    ,reqmatchDto.age_pet , reqmatchDto.id_breed ,reqmatchDto.id_district]);
             }
-            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed == null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood != null){
+            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed == null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood == null && reqmatchDto.id_district != null){
+                query = query.concat("AND p.age_pet <= ? AND p.id_skin = ? AND ur.id_district = ?");
+                results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
+                    ,reqmatchDto.age_pet , reqmatchDto.id_skin ,reqmatchDto.id_district]);
+            }
+            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed == null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood != null && reqmatchDto.id_district == null){
                 query = query.concat("AND p.age_pet <= ? AND p.id_skin = ? AND p.id_blood = ?");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
                     ,reqmatchDto.age_pet ,reqmatchDto.id_skin ,reqmatchDto.id_blood]);
             }
+            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed == null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood == null && reqmatchDto.id_district != null){
+                query = query.concat("AND p.age_pet <= ? AND p.id_skin = ? AND ur.id_district = ?");
+                results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
+                    ,reqmatchDto.age_pet ,reqmatchDto.id_skin ,reqmatchDto.id_district]);
+            }
+
+
+            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed != null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood != null && reqmatchDto.id_district == null){
+                query = query.concat("AND p.id_breed = ? AND p.id_skin = ? AND p.id_blood = ?");
+                results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
+                    ,reqmatchDto.id_breed ,reqmatchDto.id_skin ,reqmatchDto.id_blood]);
+            }
+            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed != null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood == null && reqmatchDto.id_district != null){
+                query = query.concat("AND p.id_breed = ? AND p.id_skin = ? AND ur.id_district = ?");
+                results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
+                    ,reqmatchDto.id_breed ,reqmatchDto.id_skin ,reqmatchDto.id_district]);
+            }
+            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed != null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood != null && reqmatchDto.id_district != null){
+                query = query.concat("AND p.id_breed = ? AND p.id_blood = ? AND ur.id_district = ?");
+                results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
+                    ,reqmatchDto.id_breed ,reqmatchDto.id_blood,reqmatchDto.id_district]);
+            }
+
+            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed == null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood != null && reqmatchDto.id_district != null){
+                query = query.concat("AND p.id_skin = ? AND p.id_blood = ? AND ur.id_district = ?");
+                results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet 
+                    ,reqmatchDto.id_skin ,reqmatchDto.id_blood,reqmatchDto.id_district]);
+            }
 
 
             //เงื่อนไขเลือกสี่อย่าง
-            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed != null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood != null){
-                query = query.concat("AND p.age_pet <= ? AND p.id_breed = ? AND p.id_skin = ? AND p.id_blood = ?");
+            if(reqmatchDto.age_pet != null && reqmatchDto.id_breed != null && reqmatchDto.id_skin != null  && reqmatchDto.id_blood != null && reqmatchDto.id_district != null){
+                query = query.concat("AND p.age_pet <= ? AND p.id_breed = ? AND p.id_skin = ? AND p.id_blood = ? AND ur.id_district = ? ");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet , reqmatchDto.age_pet , reqmatchDto.id_breed ,reqmatchDto.id_skin ,reqmatchDto.id_blood]);
             }
 

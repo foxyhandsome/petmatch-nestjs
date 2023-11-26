@@ -7,4 +7,5 @@ interface ReqMatchDto {
   id_breed : number;
   id_skin : number;
   id_blood : number;
+  id_district : number;
 }
