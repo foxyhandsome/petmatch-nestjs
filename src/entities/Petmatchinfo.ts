@@ -1,3 +1,4 @@
+import { type } from 'os';
 import { Entity,PrimaryGeneratedColumn,Column } from 'typeorm';
 
 @Entity({ name: 'petmatchinfo' })
@@ -30,5 +31,9 @@ export class Petmatchinfo {
   @Column()
   match_dislike: boolean;
 
+  @Column({ type: 'datetime' })
+  create_date: Date;
 
+  @Column({ type: 'datetime' })
+  update_date: Date;
 }

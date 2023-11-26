@@ -234,4 +234,118 @@ export class MatchDao {
             throw new Error('${error.message}');
         }
     }
+
+    async petmatchsuccess(reqmatchDto: ReqPetMatchInfoDto) { //ส่งข้อเสนอการจับคู่
+        try {
+            const query = ` 
+            SELECT pmi.id_match,
+			pmi.id_userhome,
+            pmi.id_pethome,
+            pmi.id_userguest,
+            pmi.id_petguest,
+            CASE 
+				WHEN pmi.match_userguest IS NOT NULL AND pmi.match_userguest = 1 THEN true
+				ELSE false
+			END AS match_userguest,
+            CASE 
+				WHEN pmi.match_userguest_deny IS NOT NULL AND pmi.match_userguest_deny = 1 THEN true
+				ELSE false
+			END AS match_userguest_deny,
+            CASE 
+				WHEN pmi.match_userhome IS NOT NULL AND pmi.match_userhome = 1 THEN true
+				ELSE false
+			END AS match_userhome,
+            CASE 
+				WHEN pmi.match_dislike IS NOT NULL AND pmi.match_dislike = 1 THEN true
+				ELSE false
+			END AS match_dislike,
+            pguest.id_pet AS id_pet_guest,
+            pguest.picture_pet AS picture_pet_guest,
+            pguest.sex_pet AS sex_pet_guest,
+            pguest.health_pet AS health_pet_guest,
+            pguest.name_pet AS name_pet_guest,
+            pguest.age_pet AS age_pet_guest,
+            pguest.id_skin AS id_skin_guest,
+            pguest.id_blood AS id_blood_guest,
+            pguest.id_user AS id_user_guest,
+            pguest.id_breed AS id_breed_guest,
+            sktguest.id_skin AS id_skin_guest,
+            sktguest.type_skin AS type_skin_guest,
+            bltguest.id_blood AS id_blood_guest,
+            bltguest.type_blood AS type_blood_guest,
+            pbguest.id_breed AS id_breed_guest,
+            pbguest.name_breed AS name_breed_guest,
+            urguest.id_user AS id_user_guest,
+            urguest.username AS username_guest,
+            urguest.password AS password_guest,
+            urguest.information AS information_guest,
+            urguest.contact AS contact_guest,
+            urguest.id_district AS id_district_guest,
+            urguest.id_subdistrict AS id_subdistrict_guest,
+            urguest.id_typeuser AS id_typeuser_guest,
+            dtguest.id_district AS id_district_guest,
+            dtguest.name_district AS name_district_guest,
+            dtguest.province_name AS province_name_guest,
+            sdtguest.id_subdistrict AS id_subdistrict_guest,
+            sdtguest.name_subdistrict AS name_subdistrict_guest,
+            sdtguest.id_district AS id_district_guest,
+            
+            phome.id_pet AS id_pet_home,
+            phome.picture_pet AS picture_pet_home,
+            phome.sex_pet AS sex_pet_home,
+            phome.health_pet AS health_pet_home,
+            phome.name_pet AS name_pet_home,
+            phome.age_pet AS age_pet_home,
+            phome.id_skin AS id_skin_home,
+            phome.id_blood AS id_blood_home,
+            phome.id_user AS id_user_home,
+            phome.id_breed AS id_breed_home,
+            skthome.id_skin AS id_skin_home,
+            skthome.type_skin AS type_skin_home,
+            blthome.id_blood AS id_blood_home,
+            blthome.type_blood AS type_blood_home,
+            pbhome.id_breed AS id_breed_home,
+            pbhome.name_breed AS name_breed_home,
+            urhome.id_user AS id_user_home,
+            urhome.username AS username_home,
+            urhome.password AS password_home,
+            urhome.information AS information_home,
+            urhome.contact AS contact_home,
+            urhome.id_district AS id_district_home,
+            urhome.id_subdistrict AS id_subdistrict_home,
+            urhome.id_typeuser AS id_typeuser_home,
+            dthome.id_district AS id_district_home,
+            dthome.name_district AS name_district_home,
+            dthome.province_name AS province_name_home,
+            sdthome.id_subdistrict AS id_subdistrict_home,
+            sdthome.name_subdistrict AS name_subdistrict_home,
+            sdthome.id_district AS id_district_home
+            FROM petmatchinfo pmi
+            INNER JOIN pet pguest ON pguest.id_pet = pmi.id_petguest
+            INNER JOIN pet phome ON phome.id_pet = pmi.id_pethome
+            INNER JOIN skintype sktguest ON sktguest.id_skin = pguest.id_skin
+            INNER JOIN bloodtype bltguest ON bltguest.id_blood = pguest.id_blood
+            INNER JOIN petbreed pbguest ON pbguest.id_breed = pguest.id_breed
+            INNER JOIN user urguest ON urguest.id_user = pmi.id_userguest
+            INNER JOIN district dtguest ON dtguest.id_district = urguest.id_district
+            INNER JOIN subdistrict sdtguest ON sdtguest.id_subdistrict = urguest.id_subdistrict
+            INNER JOIN skintype skthome ON skthome.id_skin = phome.id_skin
+            INNER JOIN bloodtype blthome ON blthome.id_blood = phome.id_blood
+            INNER JOIN petbreed pbhome ON pbhome.id_breed = phome.id_breed
+            INNER JOIN user urhome ON urhome.id_user = pmi.id_userhome
+            INNER JOIN district dthome ON dthome.id_district = urhome.id_district
+            INNER JOIN subdistrict sdthome ON sdthome.id_subdistrict = urhome.id_subdistrict
+            WHERE pmi.match_userhome = 1 AND pmi.match_userguest = 1 AND (pmi.id_userhome = ? OR pmi.id_userguest = ?)`;
+            const results: ResPetMatchDto[] = await this.petRepository.query(query, [reqmatchDto.id_userhome , reqmatchDto.id_userguest]);
+
+            if (!results || results.length === 0) {
+                throw new NotFoundException('ไม่เจอข้อมูล');
+            }
+
+            return results;
+        } catch (error) {
+            throw new Error('${error.message}');
+        }
+    }
+
 }

@@ -72,9 +72,16 @@ export class MatchController {
   @Post('/pet-maybe-review') //เส้นดูรายการสัตว์เลี้ยงที่รีวิว (จะรีวิวก็ได้หรือไม่ก็ได้)
   async petMaybeReview(@Body() reqpetmatchDto: ReqPetMatchInfoDto) {
     try {
-      // const result = await this.matchService.getPetwithoutUserHome(reqmatchDto);
-      // return result
       return this.matchDao.petmaybereview(reqpetmatchDto)
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Post('/pet-match-success') //เส้นดูประวัติการจับคู่สำเร็จ
+  async petMatchSuccess(@Body() reqpetmatchDto: ReqPetMatchInfoDto) {
+    try {
+      return this.matchDao.petmatchsuccess(reqpetmatchDto)
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
