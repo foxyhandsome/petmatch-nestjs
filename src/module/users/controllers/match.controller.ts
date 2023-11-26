@@ -78,10 +78,10 @@ export class MatchController {
     }
   }
 
-  @Post('/pet-match-success') //เส้นดูประวัติการจับคู่สำเร็จ
-  async petMatchSuccess(@Body() reqpetmatchDto: ReqPetMatchInfoDto) {
+  @Post('/pet-match-history') //เส้นดูประวัติการจับคู่สำเร็จ
+  async petMatchHistory(@Body() reqpetmatchDto: ReqPetMatchInfoDto) {
     try {
-      return this.matchDao.petmatchsuccess(reqpetmatchDto)
+      return this.matchDao.petmatchhistory(reqpetmatchDto)
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }

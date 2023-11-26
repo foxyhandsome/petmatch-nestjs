@@ -235,7 +235,7 @@ export class MatchDao {
         }
     }
 
-    async petmatchsuccess(reqmatchDto: ReqPetMatchInfoDto) { //ส่งข้อเสนอการจับคู่
+    async petmatchhistory(reqmatchDto: ReqPetMatchInfoDto) { //ส่งข้อเสนอการจับคู่
         try {
             const query = ` 
             SELECT pmi.id_match,
@@ -259,6 +259,8 @@ export class MatchDao {
 				WHEN pmi.match_dislike IS NOT NULL AND pmi.match_dislike = 1 THEN true
 				ELSE false
 			END AS match_dislike,
+            pmi.create_date,
+            pmi.update_date,
             pguest.id_pet AS id_pet_guest,
             pguest.picture_pet AS picture_pet_guest,
             pguest.sex_pet AS sex_pet_guest,
@@ -335,7 +337,7 @@ export class MatchDao {
             INNER JOIN user urhome ON urhome.id_user = pmi.id_userhome
             INNER JOIN district dthome ON dthome.id_district = urhome.id_district
             INNER JOIN subdistrict sdthome ON sdthome.id_subdistrict = urhome.id_subdistrict
-            WHERE pmi.match_userhome = 1 AND pmi.match_userguest = 1 AND (pmi.id_userhome = ? OR pmi.id_userguest = ?)`;
+            WHERE pmi.match_userhome = 1 AND pmi.match_userguest = 1 AND (pmi.id_userhome = ? OR pmi.id_userguest = ?);`;
             const results: ResPetMatchDto[] = await this.petRepository.query(query, [reqmatchDto.id_userhome , reqmatchDto.id_userguest]);
 
             if (!results || results.length === 0) {
