@@ -207,7 +207,7 @@ export class MatchDao {
         }
     }
 
-    async findpetlike(reqmatchDto: ReqMatchDto): Promise<ResPetMatchDto[]> { //ประวัติการจับคู่
+    async findpetlike(reqmatchDto: ReqMatchDto) { //ประวัติการจับคู่
         try {
             const query = ` 
             SELECT pmi.id_match,
@@ -231,6 +231,8 @@ export class MatchDao {
 				WHEN pmi.match_dislike IS NOT NULL AND pmi.match_dislike = 1 THEN true
 				ELSE false
 			END AS match_dislike,
+            DATE_ADD(pmi.create_date , INTERVAL 7 hour) AS create_date,
+            DATE_ADD(pmi.update_date , INTERVAL 7 hour) AS update_date,
             pguest.*,
             skt.*,
             blt.*,
@@ -249,7 +251,7 @@ export class MatchDao {
             INNER JOIN subdistrict sdt ON sdt.id_subdistrict = ur.id_subdistrict
             WHERE pmi.match_userhome = 1 AND pmi.id_userhome = ?;`;
             const results: ResPetMatchDto[] = await this.petRepository.query(query, [reqmatchDto.id_userhome]);
-
+            
             if (!results || results.length === 0) {
                 throw new NotFoundException('ไม่เจอข้อมูล');
             }
@@ -260,7 +262,7 @@ export class MatchDao {
         }
     }
 
-    async petmatchticket(reqmatchDto: ReqMatchDto): Promise<ResPetMatchDto[]> { //ส่งข้อเสนอการจับคู่
+    async petmatchticket(reqmatchDto: ReqMatchDto) { //ส่งข้อเสนอการจับคู่
         try {
             const query = ` 
             SELECT pmi.id_match,
@@ -284,6 +286,8 @@ export class MatchDao {
 				WHEN pmi.match_dislike IS NOT NULL AND pmi.match_dislike = 1 THEN true
 				ELSE false
 			END AS match_dislike,
+            DATE_ADD(pmi.create_date , INTERVAL 7 hour) AS create_date,
+            DATE_ADD(pmi.update_date , INTERVAL 7 hour) AS update_date,
             pguest.*,
             phome.*,
             skt.*,
@@ -314,13 +318,13 @@ export class MatchDao {
         }
     }
 
-    async updateMatch(reqmatchDto: ReqPetMatchInfoDto) { //ส่งข้อเสนอการจับคู่
+    async updateMatch(reqmatchDto: ReqPetMatchInfoDto) { //ส่งข้อเสนอการจับคู่ จากการยอมรับหรือปฏิเสธ
         try {
             const query = ` 
             UPDATE petmatchinfo pmi
-            SET pmi.match_userguest = ?, pmi.match_userguest_deny = ?
+            SET pmi.match_userguest = ?, pmi.match_userguest_deny = ? , pmi.update_date = ?
             WHERE pmi.id_match = ?`;
-            const results: ResPetMatchDto[] = await this.petRepository.query(query, [reqmatchDto.match_userguest, reqmatchDto.match_userguest_deny, reqmatchDto.id_match]);
+            const results: ResPetMatchDto[] = await this.petRepository.query(query, [reqmatchDto.match_userguest, reqmatchDto.match_userguest_deny, new Date() , reqmatchDto.id_match]);
 
             if (!results || results.length === 0) {
                 throw new NotFoundException('ไม่เจอข้อมูล');
@@ -332,7 +336,24 @@ export class MatchDao {
         }
     }
 
-    async petmaybereview(reqmatchDto: ReqPetMatchInfoDto) { //ส่งข้อเสนอการจับคู่
+    async createpetmatchinfo(reqmatchDto: ReqPetMatchInfoDto) { //ส่งข้อเสนอการจับคู่
+        try {
+            const query = ` 
+            INSERT INTO petmatchinfo 
+            VALUES (DEFAULT,  ?,  ?,  ?,  ?,  ?,  ?,   ?,  ?,  ?,  NULL)`;
+            const results: ResPetMatchDto[] = await this.petRepository.query(query, [reqmatchDto.id_userhome , reqmatchDto.id_pethome , reqmatchDto.id_userguest , reqmatchDto.id_petguest , reqmatchDto.match_userguest , reqmatchDto.match_userguest_deny , reqmatchDto.match_userhome , reqmatchDto.match_dislike , new Date()]);
+
+            if (!results || results.length === 0) {
+                throw new NotFoundException('ไม่เจอข้อมูล');
+            }
+
+            return results;
+        } catch (error) {
+            throw new Error('${error.message}');
+        }
+    }
+
+    async petmaybereview(reqmatchDto: ReqPetMatchInfoDto) { //เส้นรีวิว ที่จะรีวิวหรือไม่รีวิวก็ได้
         try {
             const query = ` 
             SELECT  pmi.id_match,
@@ -386,7 +407,7 @@ export class MatchDao {
         }
     }
 
-    async petmatchhistory(reqmatchDto: ReqPetMatchInfoDto) { //ส่งข้อเสนอการจับคู่
+    async petmatchhistory(reqmatchDto: ReqPetMatchInfoDto) { //ดูประวัติหลังจากทั้งคู่ ยินยอม
         try {
             const query = ` 
             SELECT pmi.id_match,
@@ -410,8 +431,8 @@ export class MatchDao {
 				WHEN pmi.match_dislike IS NOT NULL AND pmi.match_dislike = 1 THEN true
 				ELSE false
 			END AS match_dislike,
-            pmi.create_date,
-            pmi.update_date,
+            DATE_ADD(pmi.create_date , INTERVAL 7 hour) AS create_date,
+            DATE_ADD(pmi.update_date , INTERVAL 7 hour) AS update_date,
             pguest.id_pet AS id_pet_guest,
             pguest.picture_pet AS picture_pet_guest,
             pguest.sex_pet AS sex_pet_guest,
@@ -498,6 +519,118 @@ export class MatchDao {
             return results;
         } catch (error) {
             throw new Error('${error.message}');
+        }
+    }
+
+    async findMatchwithallinfo() { // Update the return type
+        try {
+            const query = ` 
+            SELECT pmi.id_match,
+			pmi.id_userhome,
+            pmi.id_pethome,
+            pmi.id_userguest,
+            pmi.id_petguest,
+            CASE 
+				WHEN pmi.match_userguest IS NOT NULL AND pmi.match_userguest = 1 THEN true
+				ELSE false
+			END AS match_userguest,
+            CASE 
+				WHEN pmi.match_userguest_deny IS NOT NULL AND pmi.match_userguest_deny = 1 THEN true
+				ELSE false
+			END AS match_userguest_deny,
+            CASE 
+				WHEN pmi.match_userhome IS NOT NULL AND pmi.match_userhome = 1 THEN true
+				ELSE false
+			END AS match_userhome,
+            CASE 
+				WHEN pmi.match_dislike IS NOT NULL AND pmi.match_dislike = 1 THEN true
+				ELSE false
+			END AS match_dislike,
+            DATE_ADD(pmi.create_date , INTERVAL 7 hour) AS create_date,
+            DATE_ADD(pmi.update_date , INTERVAL 7 hour) AS update_date,
+            pguest.id_pet AS id_pet_guest,
+            pguest.picture_pet AS picture_pet_guest,
+            pguest.sex_pet AS sex_pet_guest,
+            pguest.health_pet AS health_pet_guest,
+            pguest.name_pet AS name_pet_guest,
+            pguest.age_pet AS age_pet_guest,
+            pguest.id_skin AS id_skin_guest,
+            pguest.id_blood AS id_blood_guest,
+            pguest.id_user AS id_user_guest,
+            pguest.id_breed AS id_breed_guest,
+            sktguest.id_skin AS id_skin_guest,
+            sktguest.type_skin AS type_skin_guest,
+            bltguest.id_blood AS id_blood_guest,
+            bltguest.type_blood AS type_blood_guest,
+            pbguest.id_breed AS id_breed_guest,
+            pbguest.name_breed AS name_breed_guest,
+            urguest.id_user AS id_user_guest,
+            urguest.username AS username_guest,
+            urguest.password AS password_guest,
+            urguest.information AS information_guest,
+            urguest.contact AS contact_guest,
+            urguest.id_district AS id_district_guest,
+            urguest.id_subdistrict AS id_subdistrict_guest,
+            urguest.id_typeuser AS id_typeuser_guest,
+            dtguest.id_district AS id_district_guest,
+            dtguest.name_district AS name_district_guest,
+            dtguest.province_name AS province_name_guest,
+            sdtguest.id_subdistrict AS id_subdistrict_guest,
+            sdtguest.name_subdistrict AS name_subdistrict_guest,
+            sdtguest.id_district AS id_district_guest,
+            
+            phome.id_pet AS id_pet_home,
+            phome.picture_pet AS picture_pet_home,
+            phome.sex_pet AS sex_pet_home,
+            phome.health_pet AS health_pet_home,
+            phome.name_pet AS name_pet_home,
+            phome.age_pet AS age_pet_home,
+            phome.id_skin AS id_skin_home,
+            phome.id_blood AS id_blood_home,
+            phome.id_user AS id_user_home,
+            phome.id_breed AS id_breed_home,
+            skthome.id_skin AS id_skin_home,
+            skthome.type_skin AS type_skin_home,
+            blthome.id_blood AS id_blood_home,
+            blthome.type_blood AS type_blood_home,
+            pbhome.id_breed AS id_breed_home,
+            pbhome.name_breed AS name_breed_home,
+            urhome.id_user AS id_user_home,
+            urhome.username AS username_home,
+            urhome.password AS password_home,
+            urhome.information AS information_home,
+            urhome.contact AS contact_home,
+            urhome.id_district AS id_district_home,
+            urhome.id_subdistrict AS id_subdistrict_home,
+            urhome.id_typeuser AS id_typeuser_home,
+            dthome.id_district AS id_district_home,
+            dthome.name_district AS name_district_home,
+            dthome.province_name AS province_name_home,
+            sdthome.id_subdistrict AS id_subdistrict_home,
+            sdthome.name_subdistrict AS name_subdistrict_home,
+            sdthome.id_district AS id_district_home
+            FROM petmatchinfo pmi
+            INNER JOIN pet pguest ON pguest.id_pet = pmi.id_petguest
+            INNER JOIN pet phome ON phome.id_pet = pmi.id_pethome
+            INNER JOIN skintype sktguest ON sktguest.id_skin = pguest.id_skin
+            INNER JOIN bloodtype bltguest ON bltguest.id_blood = pguest.id_blood
+            INNER JOIN petbreed pbguest ON pbguest.id_breed = pguest.id_breed
+            INNER JOIN user urguest ON urguest.id_user = pmi.id_userguest
+            INNER JOIN district dtguest ON dtguest.id_district = urguest.id_district
+            INNER JOIN subdistrict sdtguest ON sdtguest.id_subdistrict = urguest.id_subdistrict
+            INNER JOIN skintype skthome ON skthome.id_skin = phome.id_skin
+            INNER JOIN bloodtype blthome ON blthome.id_blood = phome.id_blood
+            INNER JOIN petbreed pbhome ON pbhome.id_breed = phome.id_breed
+            INNER JOIN user urhome ON urhome.id_user = pmi.id_userhome
+            INNER JOIN district dthome ON dthome.id_district = urhome.id_district
+            INNER JOIN subdistrict sdthome ON sdthome.id_subdistrict = urhome.id_subdistrict`;
+            const results = await this.petRepository.query(query);
+            if (!results || results.length === 0) {
+                throw new NotFoundException('No users with user types found.');
+            }
+            return results;
+        } catch (error) {
+            throw new Error(`Failed to fetch users with user types: ${error.message}`);
         }
     }
 

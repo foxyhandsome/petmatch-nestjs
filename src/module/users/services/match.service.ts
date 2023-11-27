@@ -14,21 +14,21 @@ export class MatchService {
     @InjectRepository(Petmatchinfo) private petmatchinfoRepository: Repository<Petmatchinfo>,
   ) { }
 
-  async getPetforMatch(reqmatchDto: ReqMatchDto) {
-    return this.matchDao.findpetformatch(reqmatchDto)  //เส้นดึงสัตว์เลี้ยงมาจับคู่ //ไม่ได้เชื่อมกับ service เชื่อมกับ dao เลย
-  }
+  // async getPetforMatch(reqmatchDto: ReqMatchDto) {
+  //   return this.matchDao.findpetformatch(reqmatchDto)  //เส้นดึงสัตว์เลี้ยงมาจับคู่ //ไม่ได้เชื่อมกับ service เชื่อมกับ dao เลย
+  // }
 
-  async getPetlike(reqmatchDto: ReqMatchDto) {
-    return this.matchDao.findpetlike(reqmatchDto)  //เส้นดึงสัตว์เลี้ยงมาจับคู่ //ไม่ได้เชื่อมกับ service เชื่อมกับ dao เลย
-  }
+  // async getPetlike(reqmatchDto: ReqMatchDto) {
+  //   return this.matchDao.findpetlike(reqmatchDto)  //เส้นดึงสัตว์เลี้ยงมาจับคู่ //ไม่ได้เชื่อมกับ service เชื่อมกับ dao เลย
+  // }
 
-  async PetmatchTicket(reqmatchDto: ReqMatchDto) {
-    return this.matchDao.petmatchticket(reqmatchDto)  //เส้นดึงสัตว์เลี้ยงมาจับคู่ //ไม่ได้เชื่อมกับ service เชื่อมกับ dao เลย
-  }
+  // async PetmatchTicket(reqmatchDto: ReqMatchDto) {
+  //   return this.matchDao.petmatchticket(reqmatchDto)  //เส้นดึงสัตว์เลี้ยงมาจับคู่ //ไม่ได้เชื่อมกับ service เชื่อมกับ dao เลย
+  // }
 
-  async PetMaybeReview(reqmatchDto: ReqMatchDto) {
-    return this.matchDao.petmatchticket(reqmatchDto)  //เส้นดึงสัตว์เลี้ยงมาจับคู่ //ไม่ได้เชื่อมกับ service เชื่อมกับ dao เลย
-  }
+  // async PetMaybeReview(reqmatchDto: ReqMatchDto) {
+  //   return this.matchDao.petmatchticket(reqmatchDto)  //เส้นดึงสัตว์เลี้ยงมาจับคู่ //ไม่ได้เชื่อมกับ service เชื่อมกับ dao เลย
+  // }
 
 
   async replyPetmatchinfo(petmatchDetails: ReqPetMatchInfoDto) {//เส้นกดยอมรับข้อเสนอหรือปฏิเสธ
@@ -53,17 +53,31 @@ export class MatchService {
     }
   }
 
-
-  async createpetMatchInfo(petmatchInfoDetail: ReqPetMatchInfoDto) { //เส้นสร้างประวัติการจับคู่ หรือ จับคู่ //เส้นนี้พัง
+  async findMatchwithallinfo() {      
     try {
-      const newPetMatchInfo = this.petmatchinfoRepository.create({
-        ...petmatchInfoDetail,
-      });
-      return await this.petmatchinfoRepository.save(newPetMatchInfo);
+      const matchToFind = await this.matchDao.findMatchwithallinfo(); 
+  
+      if (!matchToFind || matchToFind.length === 0) { 
+        throw new NotFoundException('ไม่พบสัตว์เลี้ยง');
+      }
+
+      return matchToFind;
     } catch (error) {
-      throw new Error(error);
+      throw new Error(`เกิดข้อผิดพลาดในการค้นหาข้อมูลสัตว์เลี้ยง: ${error.message}`);
     }
   }
+
+
+  // async createpetMatchInfo(petmatchInfoDetail: ReqPetMatchInfoDto) { //เส้นสร้างประวัติการจับคู่ หรือ จับคู่ //เส้นนี้พัง
+  //   try {
+  //     const newPetMatchInfo = this.petmatchinfoRepository.create({
+  //       ...petmatchInfoDetail,
+  //     });
+  //     return await this.petmatchinfoRepository.save(newPetMatchInfo);
+  //   } catch (error) {
+  //     throw new Error(error);
+  //   }
+  // }
 
 }
 
