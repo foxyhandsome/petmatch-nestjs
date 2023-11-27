@@ -189,6 +189,11 @@ export class MatchDao {
                 query = query.concat("AND p.age_pet <= ? AND p.id_breed = ? AND p.id_skin = ? AND p.id_blood = ? AND ur.id_district = ? ");
                 results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet , reqmatchDto.age_pet , reqmatchDto.id_breed ,reqmatchDto.id_skin ,reqmatchDto.id_blood]);
             }
+            
+            //เงื่อนไขสี่อย่างเเต่เเบบไม่เลือกอะไรเลย
+            if(reqmatchDto.age_pet == null && reqmatchDto.id_breed == null && reqmatchDto.id_skin == null  && reqmatchDto.id_blood == null && reqmatchDto.id_district == null){
+                results = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet]);
+            }
 
             // const results: ResPetMatchDto[] = await this.petRepository.query(query, [reqmatchDto.id_user, reqmatchDto.id_userhome, reqmatchDto.id_userguest, reqmatchDto.id_userhome, reqmatchDto.id_userguest , reqmatchDto.sex_pet]);
 
