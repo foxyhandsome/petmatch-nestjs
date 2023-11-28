@@ -8,7 +8,7 @@ export class MatchController {
 
   }
 
-  @Get("/get-match-withinfo") //เส้นดูสัตว์เลี้ยง
+  @Get("/get-match-withinfo") //เส้นดูประวัติการจับคู่ทั้งหมด
   async findMatchwithallinfo() {
     try {
       const result = await this.matchService.findMatchwithallinfo();
@@ -17,6 +17,16 @@ export class MatchController {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @Get('/get-match/:id_match') //เส้นดูประวัติการจับคู่ด้วย id_match
+  async findMatchById(@Param('id_match') id_match: number) {
+    const user = await this.matchService.findMatchbyId(id_match);
+    if (!user) {
+      throw new NotFoundException('หาผู้ใช้ไม่เจอ');
+    }
+    return user;
+  }
+  
 
 
   @Post('/get-pet-for-match') //เส้นเอาสัตว์เลี้ยงคัดกรองมาจับคู่
