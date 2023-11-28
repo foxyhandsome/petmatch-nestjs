@@ -31,6 +31,9 @@ export class Petmatchinfo {
   @Column()
   match_dislike: boolean;
 
+  @Column()
+  match_status: string;
+
   @Column({ type: 'datetime' })
   create_date: Date;
 

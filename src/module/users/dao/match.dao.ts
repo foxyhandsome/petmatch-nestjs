@@ -321,11 +321,23 @@ export class MatchDao {
 
     async updateMatch(reqmatchDto: ReqPetMatchInfoDto) { //ส่งข้อเสนอการจับคู่ จากการยอมรับหรือปฏิเสธ
         try {
-            const query = ` 
-            UPDATE petmatchinfo pmi
-            SET pmi.match_userguest = ?, pmi.match_userguest_deny = ? , pmi.update_date = ?
-            WHERE pmi.id_match = ?`;
-            const results: ResPetMatchDto[] = await this.petRepository.query(query, [reqmatchDto.match_userguest, reqmatchDto.match_userguest_deny, new Date() , reqmatchDto.id_match]);
+            var results: ResPetMatchDto[]; 
+            if (reqmatchDto.match_userguest == true && reqmatchDto.match_userguest_deny == false) {
+                var query = ` 
+                    UPDATE petmatchinfo pmi
+                    SET pmi.match_userguest = ?, pmi.match_userguest_deny = ? , pmi.match_status = "จับคู่สำเร็จ (ยอมรับ)", pmi.update_date = ?
+                    WHERE pmi.id_match = ?`;
+                results = await this.petRepository.query(query, [reqmatchDto.match_userguest, reqmatchDto.match_userguest_deny, new Date(), reqmatchDto.id_match]);
+            }
+
+            if (reqmatchDto.match_userguest == false && reqmatchDto.match_userguest_deny == true) {
+                var query = ` 
+                    UPDATE petmatchinfo pmi
+                    SET pmi.match_userguest = ?, pmi.match_userguest_deny = ? , pmi.match_status = "จับคู่ไม่สำเร็จ (ปฏิเสธ)", pmi.update_date = ?
+                    WHERE pmi.id_match = ?`;
+                results = await this.petRepository.query(query, [reqmatchDto.match_userguest, reqmatchDto.match_userguest_deny, new Date(), reqmatchDto.id_match]);
+            }
+
 
             if (!results || results.length === 0) {
                 throw new NotFoundException('ไม่เจอข้อมูล');
@@ -339,10 +351,21 @@ export class MatchDao {
 
     async createpetmatchinfo(reqmatchDto: ReqPetMatchInfoDto) { //ส่งข้อเสนอการจับคู่
         try {
-            const query = ` 
-            INSERT INTO petmatchinfo 
-            VALUES (DEFAULT,  ?,  ?,  ?,  ?,  ?,  ?,   ?,  ?,  ?,  NULL)`;
-            const results: ResPetMatchDto[] = await this.petRepository.query(query, [reqmatchDto.id_userhome , reqmatchDto.id_pethome , reqmatchDto.id_userguest , reqmatchDto.id_petguest , reqmatchDto.match_userguest , reqmatchDto.match_userguest_deny , reqmatchDto.match_userhome , reqmatchDto.match_dislike , new Date()]);
+            var results : ResPetMatchDto[]
+            if(reqmatchDto.match_userguest == false && reqmatchDto.match_userguest_deny == false && reqmatchDto.match_dislike == false && reqmatchDto.match_userhome == true){
+                var query = ` 
+                INSERT INTO petmatchinfo 
+                    VALUES (DEFAULT,  ?,  ?,  ?,  ?,  ?,  ?,   ?,  ?, "รอตอบกลับข้อเสนอ" , ?,  NULL )`;
+            results = await this.petRepository.query(query, [reqmatchDto.id_userhome , reqmatchDto.id_pethome , reqmatchDto.id_userguest , reqmatchDto.id_petguest , reqmatchDto.match_userguest , reqmatchDto.match_userguest_deny , reqmatchDto.match_userhome , reqmatchDto.match_dislike , new Date()]);
+            }
+
+            if(reqmatchDto.match_userguest == false && reqmatchDto.match_userguest_deny == false && reqmatchDto.match_dislike == true && reqmatchDto.match_userhome == false){
+                var query = ` 
+                INSERT INTO petmatchinfo 
+                    VALUES (DEFAULT,  ?,  ?,  ?,  ?,  ?,  ?,   ?,  ?, "ไม่ถูกใจ" , ?,  NULL )`;
+            results = await this.petRepository.query(query, [reqmatchDto.id_userhome , reqmatchDto.id_pethome , reqmatchDto.id_userguest , reqmatchDto.id_petguest , reqmatchDto.match_userguest , reqmatchDto.match_userguest_deny , reqmatchDto.match_userhome , reqmatchDto.match_dislike , new Date()]);
+            }
+            
 
             if (!results || results.length === 0) {
                 throw new NotFoundException('ไม่เจอข้อมูล');
