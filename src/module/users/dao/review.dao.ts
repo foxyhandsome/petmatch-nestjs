@@ -37,6 +37,23 @@ export class ReviewDao {
     async findReviewbypethometid(id_pet_home : number) { 
         try {
             const query = `
+            SELECT user.username , review.review_info FROM review
+            INNER JOIN user ON review.id_user_review = user.id_user
+            INNER JOIN pet ON review.id_pet_review = pet.id_pet
+            WHERE id_pet_home = ?;`;
+            const results = await this.reviewRepository.query(query,[id_pet_home]);
+            if (!results || results.length === 0) {
+                throw new NotFoundException('No users with user types found.');
+            }
+            return results;
+        } catch (error) {
+            throw new Error(`Failed to fetch users with user types: ${error.message}`);
+        }
+    }
+
+    async findReviewwebbypethometid(id_pet_home : number) { 
+        try {
+            const query = `
             SELECT * FROM review
             INNER JOIN user ON review.id_user_review = user.id_user
             INNER JOIN pet ON review.id_pet_review = pet.id_pet

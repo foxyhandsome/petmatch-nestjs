@@ -39,6 +39,15 @@ export class ReviewController {
     return result;
   }
 
+  @Get('/get-review-web/:id_pet_home') //เส้นดึงรีวิวโดยใช้ไอดีสัตว์เลี้ยงที่โดนรีวิว
+  async findreviewwebbyPetHomeId(@Param('id_pet_home') id_pet_home: number) {
+    const result = await this.reviewService.findReviewwebbypethomeId(id_pet_home);
+    if (!result) {
+      throw new NotFoundException('หาสัตว์เลี้ยงไม่เจอ');
+    }
+    return result;
+  }
+
 
   @Post('/create-review') //เส้นสร้างรีวิว
   async createReview(@Body() createReviewDto: CreateReviewDto) { //createReview คือฟังชั่น  โดยสร้างพารามิเตอร์ createReviewDto ที่เป็นอ๊อบเจ้กที่ดึงข้อมูลของ CreateReviewDto

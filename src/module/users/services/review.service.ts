@@ -36,6 +36,11 @@ export class ReviewService {
     return resReview;
   }
 
+  async findReviewwebbypethomeId(id_pet_home: number) {
+    const resReview = await this.reviewDao.findReviewwebbypethometid(id_pet_home);
+    return resReview;
+  }
+
   async findReviewbyId(id_review: number) {
     const resReview = await this.reviewDao.findReviewbyid(id_review);
     return resReview;
